@@ -340,5 +340,5 @@ export const REGIONS: Record<string, RegionProvince> = {
   },
 };
 
-export const DEFAULT_ADM4 = '31.71.03.1001'; // Jakarta Pusat
+export const DEFAULT_ADM4 = '31.71.03.1001'; // central jakarta
 export const DEFAULT_PROVINCE_KEY = 'DKIJakarta';

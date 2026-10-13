@@ -8,8 +8,8 @@ export interface FormattedDailyWeather {
 }
 
 /**
- * Format string "YYYY-MM-DD HH:mm:ss" or ISO string to readable Indonesian date
- * Example: "Selasa, 13 Oktober 2026"
+ * format string "yyyy-mm-dd hh:mm:ss" or iso string to readable indonesian date
+ * example: "selasa, 13 oktober 2026"
  */
 export const formatIndonesianDate = (dateTimeStr: string): string => {
   try {
@@ -41,7 +41,7 @@ export const formatIndonesianDate = (dateTimeStr: string): string => {
 };
 
 /**
- * Extracts "HH:mm" from "YYYY-MM-DD HH:mm:ss"
+ * extracts "hh:mm" from "yyyy-mm-dd hh:mm:ss"
  */
 export const formatTimeOnly = (dateTimeStr: string): string => {
   if (!dateTimeStr) return '';
@@ -55,7 +55,7 @@ export const formatTimeOnly = (dateTimeStr: string): string => {
 };
 
 /**
- * Determine if a given local_datetime or time is during day (06:00 - 17:59)
+ * determine if a given local_datetime or time is during day (06:00 - 17:59)
  */
 export const isDaytime = (dateTimeStr: string): boolean => {
   const time = formatTimeOnly(dateTimeStr);
@@ -64,7 +64,7 @@ export const isDaytime = (dateTimeStr: string): boolean => {
 };
 
 /**
- * Translate cardinal wind direction (e.g. "NW") to Indonesian ("Barat Laut")
+ * translate cardinal wind direction (e.g. "nw") to indonesian ("barat laut")
  */
 export const getWindDirectionName = (cardinal: string): string => {
   if (!cardinal) return 'N/A';
@@ -72,7 +72,7 @@ export const getWindDirectionName = (cardinal: string): string => {
 };
 
 /**
- * Groups and formats the raw BMKG weather response by day
+ * groups and formats the raw bmkg weather response by day
  */
 export const formatDailyWeatherData = (
   weatherData: BmkgWeatherResponse,

@@ -38,10 +38,10 @@ export default function EarthquakePage() {
 
   return (
     <section className='min-h-[calc(100vh-160px)] py-2'>
-      {/* Detail Gempa Terbaru */}
+      {/* latest earthquake details */}
       <EarthquakeDetail earthquake={newestEarthquake} />
 
-      {/* Peta Interaktif Terpadu (Single Map for All Earthquakes) */}
+      {/* unified interactive map for all earthquakes */}
       <div ref={mapSectionRef}>
         <EarthquakeMap
           newestEarthquake={newestEarthquake}
@@ -51,7 +51,7 @@ export default function EarthquakePage() {
         />
       </div>
 
-      {/* Daftar Gempa */}
+      {/* earthquake lists */}
       <section className='flex flex-col justify-between gap-6 lg:flex-row'>
         <div className='flex-1'>
           <EarthquakeList

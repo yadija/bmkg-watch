@@ -1,12 +1,12 @@
-// Import Swiper styles
+// import swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 
 import { Typography } from '@material-tailwind/react';
 import { WiHumidity, WiStrongWind, WiWindDeg } from 'react-icons/wi';
-// Import required modules
+// import required modules
 import { Navigation } from 'swiper/modules';
-// Import Swiper React components
+// import swiper react components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { BmkgWeatherResponse } from '../../interface';

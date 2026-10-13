@@ -14,7 +14,7 @@ interface EarthquakeMapProps {
 
 type FilterMode = 'all' | 'm5' | 'felt';
 
-// Controller to smoothly fly to coordinates when an earthquake is selected
+// controller to smoothly fly to coordinates when an earthquake is selected
 function MapController({ targetCoord }: { targetCoord: [number, number] | null }) {
   const map = useMap();
 
@@ -27,7 +27,7 @@ function MapController({ targetCoord }: { targetCoord: [number, number] | null }
   return null;
 }
 
-// Reset view button control inside map
+// reset view button control inside map
 function ResetViewButton() {
   const map = useMap();
 
@@ -42,7 +42,7 @@ function ResetViewButton() {
   );
 }
 
-// Custom circular marker with magnitude label
+// custom circular marker with magnitude label
 const createMarkerIcon = (
   magnitude: string | number,
   isLatest: boolean,
@@ -89,7 +89,7 @@ export default function EarthquakeMap({
 }: EarthquakeMapProps) {
   const [filter, setFilter] = useState<FilterMode>('all');
 
-  // Parse latest earthquake coordinates
+  // parse latest earthquake coordinates
   const latestCoord: [number, number] | null = (() => {
     if (!newestEarthquake?.coordinates || newestEarthquake.coordinates.length < 2) {
       if (newestEarthquake?.lintang && newestEarthquake?.bujur) {
@@ -121,7 +121,7 @@ export default function EarthquakeMap({
           </Typography>
         </div>
 
-        {/* Filter Badges */}
+        {/* filter badges */}
         <div className='mt-2 flex gap-2 sm:mt-0'>
           <button
             onClick={() => setFilter('all')}
@@ -171,7 +171,7 @@ export default function EarthquakeMap({
           <MapController targetCoord={selectedCoord} />
           <ResetViewButton />
 
-          {/* Latest Earthquake Marker */}
+          {/* latest earthquake marker */}
           {newestEarthquake && latestCoord && (
             <Marker
               position={latestCoord}
@@ -205,7 +205,7 @@ export default function EarthquakeMap({
             </Marker>
           )}
 
-          {/* M 5.0+ Earthquakes */}
+          {/* m 5.0+ earthquakes */}
           {show5Min &&
             earthquakes5Min &&
             earthquakes5Min.map((eq, index) => {
@@ -247,7 +247,7 @@ export default function EarthquakeMap({
               );
             })}
 
-          {/* Felt Earthquakes */}
+          {/* felt earthquakes */}
           {showFelt &&
             earthquakesFelt &&
             earthquakesFelt.map((eq, index) => {
@@ -290,7 +290,7 @@ export default function EarthquakeMap({
             })}
         </MapContainer>
 
-        {/* Legend Overlay on Map */}
+        {/* legend overlay on map */}
         <div className='absolute bottom-3 right-3 z-[1000] rounded-lg bg-white/95 p-2.5 text-xs shadow-md backdrop-blur-sm'>
           <p className='mb-1 font-bold text-gray-800'>Keterangan Pin:</p>
           <div className='flex items-center gap-2'>

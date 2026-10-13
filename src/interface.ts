@@ -25,7 +25,7 @@ export interface EarthquakeData {
   dirasakan?: string;
 }
 
-// New BMKG Weather REST JSON Interfaces
+// new bmkg weather rest json interfaces
 export interface BmkgWeatherLocation {
   adm1: string;
   adm2: string;
