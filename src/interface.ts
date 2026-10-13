@@ -24,49 +24,50 @@ export interface EarthquakeData {
   dirasakan?: string;
 }
 
-// weather
-interface Value {
-  unit: string;
-  value: string;
+// New BMKG Weather REST JSON Interfaces
+export interface BmkgWeatherLocation {
+  adm1: string;
+  adm2: string;
+  adm3: string;
+  adm4: string;
+  provinsi: string;
+  kotkab: string;
+  kecamatan: string;
+  desa: string;
+  lon: number;
+  lat: number;
+  timezone: string;
+  type?: string;
 }
 
-export interface Timerange {
-  type: string;
+export interface BmkgWeatherEntry {
   datetime: string;
-  hour: string | null;
-  day: string | null;
-  values: Value[];
+  local_datetime: string;
+  t: number;
+  tcc: number;
+  tp: number;
+  weather: number;
+  weather_desc: string;
+  weather_desc_en: string;
+  wd_deg?: number;
+  wd: string;
+  wd_to?: string;
+  ws: number;
+  hu: number;
+  vs?: number | null;
+  vs_text?: string | null;
+  time_index?: string;
+  analysis_date?: string;
+  image: string;
+  utc_datetime: string;
 }
 
-export interface Parameter {
-  id: string;
-  description: string;
-  type: string;
-  timeranges: Timerange[];
+export interface BmkgWeatherDataItem {
+  lokasi: BmkgWeatherLocation;
+  cuaca: BmkgWeatherEntry[][];
 }
 
-export interface Issue {
-  timestamp: string;
-  year: string;
-  month: string;
-  day: string;
-  hour: string;
-  minute: string;
-  second: string;
-}
-
-export interface Area {
-  id: string;
-  name: string;
-  latitude: string;
-  longitude: string;
-  description: string;
-  domain: string;
-  type: string;
-  parameters: Parameter[];
-}
-
-export interface WeatherData {
-  issue: Issue;
-  areas: Area[];
+export interface BmkgWeatherResponse {
+  lokasi: BmkgWeatherLocation;
+  data: BmkgWeatherDataItem[];
 }

@@ -7,26 +7,46 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { fetchNewestEarthquake, fetchWeather } from '../api';
 import WeatherContent from '../components/weather/WeatherContent';
-import { NewestEarthquake, WeatherData } from '../interface';
-import { formatWeatherData } from '../utils';
+import { DEFAULT_ADM4 } from '../constant';
+import { BmkgWeatherResponse, NewestEarthquake } from '../interface';
+
+const POPULAR_CITIES = [
+  { name: 'Jakarta Pusat (DKI Jakarta)', adm4: '31.71.03.1001' },
+  { name: 'Kota Bandung (Jawa Barat)', adm4: '32.73.01.1001' },
+  { name: 'Kota Surabaya (Jawa Timur)', adm4: '35.78.01.1001' },
+  { name: 'Kota Semarang (Jawa Tengah)', adm4: '33.74.01.1001' },
+  { name: 'Kota Yogyakarta (DIY)', adm4: '34.71.01.1001' },
+  { name: 'Kota Denpasar (Bali)', adm4: '51.71.01.1001' },
+  { name: 'Kota Medan (Sumatera Utara)', adm4: '12.71.01.1001' },
+  { name: 'Kota Makassar (Sulawesi Selatan)', adm4: '73.71.01.1001' },
+  { name: 'Kota Balikpapan (Kalimantan Timur)', adm4: '64.71.01.1001' },
+  { name: 'Kota Palembang (Sumatera Selatan)', adm4: '16.71.01.1001' },
+];
 
 export default function HomePage() {
   const [newestEarthquake, setNewestEarthquake] = useState<NewestEarthquake | null>(null);
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [areaId, setAreaId] = useState<string>('');
+  const [weather, setWeather] = useState<BmkgWeatherResponse | null>(null);
+  const [adm4, setAdm4] = useState<string>(DEFAULT_ADM4);
+  const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
 
   // dialog
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((prev) => !prev);
 
+  const loadWeather = async (targetAdm4: string) => {
+    setLoadingWeather(true);
+    const data = await fetchWeather(targetAdm4);
+    setWeather(data);
+    setLoadingWeather(false);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      const weather = await fetchWeather();
-      setWeather(weather);
-      setAreaId(weather?.areas[0].id || '');
+      loadWeather(DEFAULT_ADM4);
 
       const earthquake = await fetchNewestEarthquake();
       setNewestEarthquake(earthquake);
@@ -35,26 +55,29 @@ export default function HomePage() {
     fetchData();
   }, []);
 
-  const formattedWeather = weather ? formatWeatherData(weather) : null;
+  const handleCityChange = (newAdm4: string) => {
+    setAdm4(newAdm4);
+    loadWeather(newAdm4);
+  };
 
   return (
     <>
-      <header className='mb-5 rounded-lg border bg-green-300 p-4 shadow-md'>
-        <Typography variant='paragraph' className='text-lg'>
-          Data ini diperoleh dari <span className='font-bold'>BMKG</span> (Badan
+      <header className='mb-5 rounded-lg border border-green-200 bg-green-100 p-4 shadow-sm'>
+        <Typography variant='paragraph' className='text-lg font-semibold text-green-900'>
+          Data ini diperoleh langsung dari <span className='font-bold'>BMKG</span> (Badan
           Meteorologi, Klimatologi, dan Geofisika Indonesia).
         </Typography>
-        <Typography variant='paragraph' className='text-sm'>
-          BMKG bertanggung jawab untuk menyediakan informasi terkait cuaca, iklim, dan
-          aktivitas seismik di seluruh Indonesia. Untuk informasi lebih lanjut, silakan
-          kunjungi situs web{' '}
+        <Typography variant='paragraph' className='mt-1 text-sm text-green-800'>
+          BMKG bertanggung jawab untuk menyediakan informasi resmi terkait cuaca, iklim,
+          dan aktivitas seismik di seluruh Indonesia. Untuk informasi lebih lanjut,
+          silakan kunjungi situs web{' '}
           <a
             href='https://www.bmkg.go.id'
             target='_blank'
-            className='text-blue-500 underline hover:text-blue-700'
+            className='font-semibold text-blue-700 underline hover:text-blue-900'
             rel='noreferrer'
           >
-            bmkg
+            bmkg.go.id
           </a>
           .
         </Typography>
@@ -62,74 +85,69 @@ export default function HomePage() {
 
       <section className='flex min-h-[calc(100vh-160px)] flex-col-reverse gap-5 lg:flex-row'>
         <section className='flex-1'>
-          <section className='flex justify-between'>
-            <Typography variant='h1' className='mb-2 text-2xl font-semibold'>
-              Perkiraan cuaca
+          <section className='mb-2 flex items-center justify-between'>
+            <Typography
+              variant='h1'
+              className='text-2xl font-semibold text-blue-gray-900'
+            >
+              Perkiraan Cuaca Hari Ini
             </Typography>
-            <a href='/cuaca' className='text-blue-500 underline'>
-              lihat semua
-            </a>
+            <Link
+              to='/cuaca'
+              className='text-sm font-medium text-blue-600 underline hover:text-blue-800'
+            >
+              lihat semua kota &rarr;
+            </Link>
           </section>
 
-          {formattedWeather ? (
-            <>
-              <Select
-                variant='outlined'
-                label='-- Pilih Wilayah --'
-                value={areaId}
-                onChange={(value) => {
-                  if (value) setAreaId(value);
-                }}
-              >
-                {formattedWeather.areas.map((area) => (
-                  <Option key={area.id} value={area.id}>
-                    {area.name}
-                  </Option>
-                ))}
-              </Select>
+          <div className='mb-4 max-w-sm'>
+            <Select
+              variant='outlined'
+              label='-- Pilih Kota Populer --'
+              value={adm4}
+              onChange={(value) => {
+                if (value) handleCityChange(value);
+              }}
+            >
+              {POPULAR_CITIES.map((city) => (
+                <Option key={city.adm4} value={city.adm4}>
+                  {city.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
 
-              {areaId &&
-                formattedWeather.areas
-                  .filter((area) => area.id === areaId)
-                  .map((area) => (
-                    <Card key={area.id} className='mt-2'>
-                      <CardBody>
-                        <Typography variant='h2' className='text-xl font-semibold'>
-                          {area.name}{' '}
-                          <span className='text-sm'>
-                            ({formattedWeather.issue.datetime})
-                          </span>
-                        </Typography>
+          {loadingWeather ? (
+            <Card className='w-full animate-pulse shadow-sm'>
+              <CardBody>
+                <div className='mb-3 h-6 w-60 rounded bg-gray-300'></div>
+                <div className='h-72 w-full rounded bg-gray-200'></div>
+              </CardBody>
+            </Card>
+          ) : weather ? (
+            <Card className='shadow-sm'>
+              <CardBody>
+                <div className='flex items-baseline justify-between'>
+                  <Typography variant='h2' className='text-xl font-semibold'>
+                    {weather.lokasi.kotkab},{' '}
+                    <span className='text-sm font-normal text-gray-600'>
+                      {weather.lokasi.provinsi}
+                    </span>
+                  </Typography>
+                  <span className='text-xs text-gray-500'>
+                    Zona: {weather.lokasi.timezone}
+                  </span>
+                </div>
 
-                        <WeatherContent timeranges={area.timeranges.slice(0, 4)} />
-                      </CardBody>
-                    </Card>
-                  ))}
-            </>
+                <WeatherContent weatherData={weather} maxDays={1} />
+              </CardBody>
+            </Card>
           ) : (
-            <section className='w-full animate-pulse'>
-              <section className='h-10 w-full rounded-lg bg-white'></section>
-              <Card className='mt-2 w-full rounded-lg bg-white'>
-                <CardBody>
-                  <Typography
-                    as='div'
-                    variant='h2'
-                    className='mb-2 h-6 w-72 rounded-full bg-gray-300'
-                  >
-                    &nbsp;
-                  </Typography>
-                  <Typography
-                    as='div'
-                    variant='paragraph'
-                    className='mb-5 ml-3 mt-8 h-6 w-52 rounded-full bg-gray-300 p-3'
-                  >
-                    &nbsp;
-                  </Typography>
-
-                  <section className='h-[420px] w-full bg-gray-300 lg:h-[300px]'></section>
-                </CardBody>
-              </Card>
-            </section>
+            <Card className='border border-red-200 bg-red-50 p-6 text-center text-red-700'>
+              <Typography variant='paragraph'>
+                Gagal memuat cuaca. Silakan pilih kota lain atau refresh halaman.
+              </Typography>
+            </Card>
           )}
         </section>
 
@@ -137,17 +155,38 @@ export default function HomePage() {
           {newestEarthquake ? (
             <Card className='sticky top-2 rounded-lg border p-4 shadow-md'>
               <CardBody className='flex flex-col'>
-                <Typography variant='h1' className='mb-2 text-center text-2xl font-bold'>
+                <Typography
+                  variant='h1'
+                  className='mb-2 text-center text-2xl font-bold text-blue-gray-900'
+                >
                   Info Gempa Terbaru
                 </Typography>
-                <button className='m-auto w-full' onClick={handleOpen}>
+                <button
+                  className='m-auto w-full transition-transform hover:scale-[1.02]'
+                  onClick={handleOpen}
+                >
                   <img
                     src={`https://data.bmkg.go.id/DataMKG/TEWS/${newestEarthquake.shakemap}`}
                     alt='Shakemap'
-                    className='h-auto w-full cursor-pointer overflow-hidden transition-opacity hover:opacity-90'
+                    className='h-auto w-full cursor-pointer overflow-hidden rounded shadow-sm transition-opacity hover:opacity-90'
                     title={newestEarthquake.wilayah}
                   />
                 </button>
+                <div className='mt-3 text-xs text-gray-600'>
+                  <p className='font-semibold text-gray-800'>
+                    {newestEarthquake.wilayah}
+                  </p>
+                  <p>
+                    Magnitudo:{' '}
+                    <span className='font-bold text-red-600'>
+                      {newestEarthquake.magnitude}
+                    </span>{' '}
+                    &bull; Kedalaman: {newestEarthquake.kedalaman}
+                  </p>
+                  <p>
+                    {newestEarthquake.tanggal} {newestEarthquake.jam}
+                  </p>
+                </div>
               </CardBody>
             </Card>
           ) : (
@@ -158,7 +197,7 @@ export default function HomePage() {
                 </Typography>
 
                 <section className='m-auto w-full animate-pulse'>
-                  <section className='grid h-[600px] w-full place-items-center overflow-hidden bg-gray-300 lg:h-[270px]'>
+                  <section className='grid h-[300px] w-full place-items-center overflow-hidden rounded bg-gray-300'>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       fill='none'
@@ -185,7 +224,7 @@ export default function HomePage() {
         <img
           src={`https://data.bmkg.go.id/DataMKG/TEWS/${newestEarthquake?.shakemap}`}
           alt='Shakemap'
-          className='h-auto w-full'
+          className='h-auto w-full rounded'
         />
       </Dialog>
     </>

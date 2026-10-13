@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   WiCloud,
   WiCloudy,
@@ -22,14 +23,39 @@ import {
 } from 'react-icons/wi';
 
 interface WeatherIconProps {
-  value: string;
+  value?: string | number;
   day?: boolean;
+  imageUrl?: string;
+  alt?: string;
+  size?: number;
 }
 
-export default function WeatherIcon({ value, day = true }: WeatherIconProps) {
-  const size = 120;
+export default function WeatherIcon({
+  value,
+  day = true,
+  imageUrl,
+  alt = 'Kondisi Cuaca',
+  size = 120,
+}: WeatherIconProps) {
+  const [imageError, setImageError] = useState(false);
 
-  switch (value) {
+  if (imageUrl && !imageError) {
+    return (
+      <img
+        src={imageUrl}
+        alt={alt}
+        width={size}
+        height={size}
+        onError={() => setImageError(true)}
+        className='size-[100px] object-contain drop-shadow-md lg:size-[120px]'
+        loading='lazy'
+      />
+    );
+  }
+
+  const strValue = String(value ?? '');
+
+  switch (strValue) {
     case '0':
       return day ? <WiDaySunny size={size} /> : <WiNightClear size={size} />;
     case '1':

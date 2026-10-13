@@ -1,12 +1,5 @@
-import {
-  Area,
-  EarthquakeData,
-  Issue,
-  NewestEarthquake,
-  Parameter,
-  Timerange,
-  WeatherData,
-} from './interface';
+import { DEFAULT_ADM4 } from './constant';
+import { BmkgWeatherResponse, EarthquakeData, NewestEarthquake } from './interface';
 
 const parseEarthquakeData = (xmlDoc: XMLDocument) => {
   const gempaElements = Array.from(xmlDoc.getElementsByTagName('gempa'));
@@ -36,87 +29,6 @@ const parseEarthquakeData = (xmlDoc: XMLDocument) => {
       dirasakan,
     };
   });
-};
-
-export const parseWeatherData = (xmlDoc: XMLDocument): WeatherData => {
-  const issueElement = xmlDoc.getElementsByTagName('issue')[0];
-
-  const getTagValue = (parent: Element, tagName: string) => {
-    const element = parent.getElementsByTagName(tagName)[0];
-    return element ? element.textContent || '' : '';
-  };
-
-  const padTwoDigits = (num: string) => num.padStart(2, '0');
-
-  const year = getTagValue(issueElement, 'year');
-  const month = padTwoDigits(getTagValue(issueElement, 'month'));
-  const day = padTwoDigits(getTagValue(issueElement, 'day'));
-  const hour = padTwoDigits(getTagValue(issueElement, 'hour'));
-  const minute = padTwoDigits(getTagValue(issueElement, 'minute'));
-  const second = padTwoDigits(getTagValue(issueElement, 'second'));
-
-  let timestamp = getTagValue(issueElement, 'timestamp');
-  if (!timestamp && year && month && day && hour && minute && second) {
-    timestamp = `${year}${month}${day}${hour}${minute}${second}`;
-  }
-
-  const issue: Issue = {
-    timestamp,
-    year,
-    month,
-    day,
-    hour,
-    minute,
-    second,
-  };
-
-  const areas = Array.from(xmlDoc.getElementsByTagName('area')).map((area) => {
-    const parameters = Array.from(area.getElementsByTagName('parameter')).map(
-      (parameter) => {
-        const timeranges = Array.from(parameter.getElementsByTagName('timerange')).map(
-          (timerange) => {
-            const values = Array.from(timerange.getElementsByTagName('value')).map(
-              (value) => ({
-                unit: value.getAttribute('unit') || '',
-                value: value.textContent || '',
-              }),
-            );
-
-            return {
-              type: timerange.getAttribute('type') || '',
-              datetime: timerange.getAttribute('datetime') || '',
-              hour: timerange.getAttribute('h'),
-              day: timerange.getAttribute('day'),
-              values,
-            } as Timerange;
-          },
-        );
-
-        return {
-          id: parameter.getAttribute('id') || '',
-          description: parameter.getAttribute('description') || '',
-          type: parameter.getAttribute('type') || '',
-          timeranges,
-        } as Parameter;
-      },
-    );
-
-    return {
-      id: area.getAttribute('id') || '',
-      name: getTagValue(area, 'name'),
-      latitude: area.getAttribute('latitude') || '',
-      longitude: area.getAttribute('longitude') || '',
-      description: area.getAttribute('description') || '',
-      domain: area.getAttribute('domain') || '',
-      type: area.getAttribute('type') || '',
-      parameters,
-    } as Area;
-  });
-
-  return {
-    issue,
-    areas,
-  };
 };
 
 export const fetchNewestEarthquake = async (): Promise<NewestEarthquake | null> => {
@@ -187,17 +99,18 @@ export const fetchEarthquakeFelt = async (): Promise<EarthquakeData[] | null> =>
 };
 
 export const fetchWeather = async (
-  province = 'Indonesia',
-): Promise<WeatherData | null> => {
-  const url = `https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-${province}.xml`;
+  adm4: string = DEFAULT_ADM4,
+): Promise<BmkgWeatherResponse | null> => {
+  const url = `https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4=${encodeURIComponent(adm4)}`;
   try {
     const response = await fetch(url);
-    const text = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(text, 'application/xml');
-    return parseWeatherData(xmlDoc);
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+    const data: BmkgWeatherResponse = await response.json();
+    return data;
   } catch (error) {
-    console.error('Error fetching weather data:', error);
+    console.error('Error fetching weather data from BMKG REST API:', error);
     return null;
   }
 };

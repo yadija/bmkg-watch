@@ -9,147 +9,134 @@ import { Navigation } from 'swiper/modules';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { CARD, WeatherCode } from '../../constant';
+import { BmkgWeatherResponse } from '../../interface';
+import {
+  formatDailyWeatherData,
+  formatTimeOnly,
+  getWindDirectionName,
+  isDaytime,
+} from '../../utils';
 import WeatherIcon from './WeatherIcon';
 import WeatherParameter from './WeatherParameter';
 
-interface Parameter {
-  id: string;
-  description: string;
-  values: { unit: string; value: string }[];
-}
-
-interface Timerange {
-  datetime: string;
-  day: string;
-  hourly: string;
-  parameters: Parameter[];
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface WeatherContentProps {
-  timeranges: Timerange[];
+  weatherData: BmkgWeatherResponse;
+  maxDays?: number;
+  limitEntriesPerDay?: number;
 }
 
-export default function WeatherContent({ timeranges }: WeatherContentProps) {
-  const dailyTimeranges = timeranges.map((timerange) => timerange.day); // [a, a, ..., b, b, ...]
-  const uniqueDailyTimeranges = [...new Set(dailyTimeranges)]; // [a, b]
+export default function WeatherContent({
+  weatherData,
+  maxDays,
+  limitEntriesPerDay,
+}: WeatherContentProps) {
+  const dailyWeather = formatDailyWeatherData(weatherData);
+  const displayedDays = maxDays ? dailyWeather.slice(0, maxDays) : dailyWeather;
 
-  const getParameterValue = (parameters: Parameter[], id: string, unit: string) => {
+  if (displayedDays.length === 0) {
     return (
-      parameters
-        .find((parameter) => parameter.id === id)
-        ?.values.find((value) => value.unit === unit)?.value ?? 'N/A'
+      <Typography variant='paragraph' className='p-4 text-center text-gray-500'>
+        Data cuaca tidak tersedia untuk wilayah ini.
+      </Typography>
     );
-  };
-
-  const temperature = (parameters: Parameter[], unit: string = 'C') => {
-    const value = getParameterValue(parameters, 't', unit);
-    return value === 'N/A' ? value : `${value}°${unit}`;
-  };
-
-  const humidity = (parameters: Parameter[]) => {
-    const value = getParameterValue(parameters, 'hu', '%');
-    return value === 'N/A' ? value : `${value}%`;
-  };
-
-  const windSpeed = (parameters: Parameter[]) => {
-    const value = getParameterValue(parameters, 'ws', 'KPH');
-    return value === 'N/A' ? value : `${value.replace('.', ',')} Km/jam`;
-  };
-
-  const windDirection = (parameters: Parameter[]) => {
-    const value = getParameterValue(parameters, 'wd', 'CARD');
-    return value === 'N/A' ? value : CARD[value as keyof typeof CARD];
-  };
-
-  const weather = (parameters: Parameter[]) => {
-    const value = getParameterValue(parameters, 'weather', 'icon');
-    return value;
-  };
+  }
 
   return (
     <>
-      {uniqueDailyTimeranges.map((day) => (
-        <section className='mt-5 grid' key={day}>
-          <section>
-            <p className='p-3 text-lg font-bold'>
-              {timeranges
-                .find((timerange) => timerange.day === day)
-                ?.datetime.split(' ')
-                .slice(0, 4)
-                .join(' ')}
-            </p>
-          </section>
+      {displayedDays.map((day) => {
+        const entries = limitEntriesPerDay
+          ? day.entries.slice(0, limitEntriesPerDay)
+          : day.entries;
 
-          <Swiper modules={[Navigation]} loop navigation className='w-full'>
-            {timeranges
-              .filter((timerange) => timerange.day === day)
-              .map((timerange) => {
-                const parameters = timerange.parameters;
+        return (
+          <section className='mt-5 grid' key={day.dateKey}>
+            <section>
+              <p className='p-3 text-lg font-bold text-blue-gray-800'>{day.dateLabel}</p>
+            </section>
 
-                const time = timerange.datetime.split(' ').pop() as string;
-                const hour = parseInt(time?.slice(0, 2), 10);
-                const isDay = hour >= 6 && hour < 18;
+            <Swiper
+              modules={[Navigation]}
+              navigation
+              spaceBetween={12}
+              slidesPerView={1}
+              className='w-full rounded-xl shadow-inner'
+            >
+              {entries.map((entry, index) => {
+                const time = formatTimeOnly(entry.local_datetime || entry.datetime);
+                const isDay = isDaytime(entry.local_datetime || entry.datetime);
                 const classnameDay = isDay
-                  ? 'bg-blue-200 text-blue-gray-700'
-                  : 'bg-gray-800 text-gray-400';
-
-                const weatherCode = weather(parameters);
-                const weatherName = WeatherCode[weatherCode as keyof typeof WeatherCode];
+                  ? 'bg-blue-100 text-blue-gray-800'
+                  : 'bg-slate-800 text-gray-200';
 
                 return (
-                  <SwiperSlide key={timerange.hourly}>
+                  <SwiperSlide key={`${entry.datetime}-${index}`}>
                     <section
-                      className={`relative flex cursor-default flex-col gap-5 ${classnameDay}`}
+                      className={`relative flex cursor-default flex-col gap-4 rounded-xl p-4 transition-colors ${classnameDay}`}
                     >
-                      <section className='absolute top-0'>
-                        <p className='p-3 text-2xl font-bold sm:text-xl'>{time}</p>
+                      <section className='flex items-center justify-between'>
+                        <span className='rounded-full bg-black/10 px-3 py-1 text-sm font-bold backdrop-blur-sm dark:bg-white/10'>
+                          Pukul {time} WIB
+                        </span>
+                        <span className='text-xs opacity-75'>
+                          {isDay ? '☀️ Siang' : '🌙 Malam'}
+                        </span>
                       </section>
 
-                      <section className='flex flex-col justify-between gap-5 lg:flex-row'>
-                        <section className='grid h-[200px] w-full place-items-center overflow-hidden'>
-                          <section className='cursor-pointer' title={weatherName}>
-                            <WeatherIcon value={weatherCode} day={isDay} />
-                            <Typography
-                              variant='h1'
-                              className='text-center text-2xl font-bold'
-                            >
-                              {weatherName}
-                            </Typography>
-                          </section>
+                      <section className='flex flex-col items-center justify-around gap-4 py-2 lg:flex-row'>
+                        <section
+                          className='flex flex-col items-center'
+                          title={entry.weather_desc}
+                        >
+                          <WeatherIcon
+                            imageUrl={entry.image}
+                            value={entry.weather}
+                            day={isDay}
+                            alt={entry.weather_desc}
+                          />
+                          <Typography
+                            variant='h3'
+                            className='mt-2 text-center text-xl font-bold capitalize'
+                          >
+                            {entry.weather_desc}
+                          </Typography>
                         </section>
-                        <section className='grid h-[100px] w-full place-items-center overflow-hidden lg:h-[200px]'>
-                          <p className='cursor-pointer text-5xl' title='Suhu'>
-                            {temperature(parameters, 'C')}
+
+                        <section className='flex items-center justify-center'>
+                          <p
+                            className='text-6xl font-light tracking-tight'
+                            title='Suhu Udara'
+                          >
+                            {entry.t}
+                            <span className='text-3xl font-normal'>°C</span>
                           </p>
                         </section>
                       </section>
 
-                      <section className='flex w-full flex-row items-center justify-center gap-5 p-5 lg:justify-start'>
+                      <section className='grid grid-cols-3 gap-2 rounded-lg bg-black/5 p-3 backdrop-blur-sm dark:bg-white/5 lg:justify-start'>
                         <WeatherParameter
-                          title='Kelembaban'
+                          title='Kelembaban Udara'
                           icon={WiHumidity}
-                          value={humidity(parameters)}
+                          value={`${entry.hu}%`}
                         />
                         <WeatherParameter
                           title='Kecepatan Angin'
                           icon={WiStrongWind}
-                          value={windSpeed(parameters)}
+                          value={`${entry.ws} km/j`}
                         />
                         <WeatherParameter
                           title='Arah Angin'
                           icon={WiWindDeg}
-                          value={windDirection(parameters)}
+                          value={getWindDirectionName(entry.wd)}
                         />
                       </section>
                     </section>
                   </SwiperSlide>
                 );
               })}
-          </Swiper>
-        </section>
-      ))}
+            </Swiper>
+          </section>
+        );
+      })}
     </>
   );
 }

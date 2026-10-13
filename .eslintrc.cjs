@@ -48,7 +48,7 @@ module.exports = {
       'error',
       {
         components: ['Link'],
-        specialLink: ['hrefLeft', 'hrefRight'],
+        specialLink: ['to', 'hrefLeft', 'hrefRight'],
         aspects: ['invalidHref', 'preferButton'],
       },
     ],

@@ -1,138 +1,103 @@
-import { Parameter, WeatherData } from '../interface';
+import { CARD } from '../constant';
+import { BmkgWeatherEntry, BmkgWeatherResponse } from '../interface';
 
-// Function to extract date components from a datetime string
-const extractDate = (datetime: string) => ({
-  year: datetime.substring(0, 4),
-  month: datetime.substring(4, 6),
-  day: datetime.substring(6, 8),
-  hour: datetime.substring(8, 10),
-  minute: datetime.substring(10, 12),
-});
+export interface FormattedDailyWeather {
+  dateLabel: string;
+  dateKey: string;
+  entries: BmkgWeatherEntry[];
+}
 
-// Function to format date to a human-readable string
-const formatDate = (date: { year: string; month: string; day: string }) => {
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-  return new Date(`${date.month}/${date.day}/${date.year}`).toLocaleDateString(
-    'id-ID',
-    options,
-  );
+/**
+ * Format string "YYYY-MM-DD HH:mm:ss" or ISO string to readable Indonesian date
+ * Example: "Selasa, 13 Oktober 2026"
+ */
+export const formatIndonesianDate = (dateTimeStr: string): string => {
+  try {
+    const cleanDateStr = dateTimeStr.includes(' ')
+      ? dateTimeStr.split(' ')[0]
+      : dateTimeStr.split('T')[0];
+    const parts = cleanDateStr.split('-');
+    if (parts.length === 3) {
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const day = parseInt(parts[2], 10);
+      const date = new Date(year, month, day);
+      return date.toLocaleDateString('id-ID', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+    return new Date(dateTimeStr).toLocaleDateString('id-ID', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  } catch {
+    return dateTimeStr;
+  }
 };
 
-// Function to format both date and time to a human-readable string
-const formatDateTime = (date: {
-  year: string;
-  month: string;
-  day: string;
-  hour: string;
-  minute: string;
-}) => `${formatDate(date)} ${date.hour}:${date.minute}`;
+/**
+ * Extracts "HH:mm" from "YYYY-MM-DD HH:mm:ss"
+ */
+export const formatTimeOnly = (dateTimeStr: string): string => {
+  if (!dateTimeStr) return '';
+  const timePart = dateTimeStr.includes(' ')
+    ? dateTimeStr.split(' ')[1]
+    : dateTimeStr.split('T')[1];
+  if (timePart) {
+    return timePart.substring(0, 5);
+  }
+  return dateTimeStr;
+};
 
-// Function to get hourly parameters for a specific hour
-const getHourlyParameters = (parameters: Parameter[], hour: string) =>
-  parameters
-    .filter((parameter) => parameter.type === 'hourly')
-    .map((parameter) => {
-      const timerange = parameter.timeranges.filter(
-        (timerange) => timerange.hour === hour,
-      )[0];
-      return (
-        timerange && {
-          id: parameter.id,
-          description: parameter.description,
-          values: timerange.values,
-        }
-      );
-    })
-    .filter(Boolean);
+/**
+ * Determine if a given local_datetime or time is during day (06:00 - 17:59)
+ */
+export const isDaytime = (dateTimeStr: string): boolean => {
+  const time = formatTimeOnly(dateTimeStr);
+  const hour = parseInt(time.split(':')[0], 10);
+  return hour >= 6 && hour < 18;
+};
 
-// Function to get timeranges from parameters
-const getTimeranges = (parameters: Parameter[]) => {
-  const hourlyParameters = parameters.filter(
-    (parameter) => parameter.type === 'hourly',
-  )[0];
+/**
+ * Translate cardinal wind direction (e.g. "NW") to Indonesian ("Barat Laut")
+ */
+export const getWindDirectionName = (cardinal: string): string => {
+  if (!cardinal) return 'N/A';
+  return CARD[cardinal as keyof typeof CARD] || cardinal;
+};
 
-  if (!hourlyParameters || !hourlyParameters.timeranges.length) {
+/**
+ * Groups and formats the raw BMKG weather response by day
+ */
+export const formatDailyWeatherData = (
+  weatherData: BmkgWeatherResponse,
+): FormattedDailyWeather[] => {
+  if (!weatherData?.data?.[0]?.cuaca) {
     return [];
   }
 
-  const hours = hourlyParameters.timeranges.map((timerange) => timerange.hour as string);
+  const daysArray = weatherData.data[0].cuaca;
+  const result: FormattedDailyWeather[] = [];
 
-  return hours.map((hour) => {
-    const datetime = hourlyParameters.timeranges.filter(
-      (timerange) => timerange.hour === hour,
-    )[0].datetime;
-    const date = extractDate(datetime);
-    const formattedDate = formatDateTime(date);
+  daysArray.forEach((dayEntries) => {
+    if (!dayEntries || dayEntries.length === 0) return;
+    const firstEntry = dayEntries[0];
+    const dateKey = firstEntry.local_datetime.split(' ')[0] || firstEntry.datetime;
+    const dateLabel = formatIndonesianDate(
+      firstEntry.local_datetime || firstEntry.datetime,
+    );
 
-    return {
-      hourly: hour,
-      day: date.day,
-      datetime: formattedDate,
-      parameters: getHourlyParameters(parameters, hour),
-    };
-  });
-};
-
-// Function to get daily parameters for a specific day
-const getDailyParameters = (parameters: Parameter[], day: string) =>
-  parameters
-    .filter((parameter) => parameter.type === 'daily')
-    .map((parameter) => {
-      const timerange = parameter.timeranges.filter(
-        (timerange) => timerange.datetime.substring(6, 8) === day,
-      )[0];
-      return (
-        timerange && {
-          id: parameter.id,
-          description: parameter.description,
-          values: timerange.values,
-        }
-      );
-    })
-    .filter(Boolean);
-
-// Function to format weather data
-export function formatWeatherData(weather: WeatherData) {
-  // Extract and format the issue date
-  const issueDate = extractDate(weather.issue.timestamp);
-  const formattedIssueDate = `${formatDate(issueDate)} ${weather.issue.hour}:${weather.issue.minute}:${weather.issue.second}`;
-
-  // Map over areas to format them
-  const areas = weather.areas.map((area) => {
-    const { parameters, ...other } = area;
-    const timeranges = parameters ? getTimeranges(parameters) : [];
-
-    // Handle daily parameters
-    const dailyParameters = parameters
-      ? parameters.filter((parameter) => parameter.type === 'daily')
-      : [];
-    const days =
-      dailyParameters.length > 0
-        ? dailyParameters[0].timeranges.map((timerange) =>
-            timerange.datetime.substring(6, 8),
-          )
-        : [];
-
-    days.forEach((day) => {
-      const dailyParam = getDailyParameters(parameters, day);
-      timeranges.forEach((timerange) => {
-        if (timerange.day === day) {
-          timerange.parameters.push(...dailyParam);
-        }
-      });
+    result.push({
+      dateKey,
+      dateLabel,
+      entries: dayEntries,
     });
-
-    return { ...other, timeranges };
   });
 
-  // Return formatted weather data
-  return {
-    issue: { datetime: formattedIssueDate },
-    areas,
-  };
-}
+  return result;
+};
