@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import WeatherContent from '@/components/weather/WeatherContent';
+import WeatherContent from '@/components/weather/weather-content';
 import { DEFAULT_ADM4 } from '@/constants';
 import { fetchNewestEarthquake, fetchWeather } from '@/services';
 import { BmkgWeatherResponse, NewestEarthquake } from '@/types';

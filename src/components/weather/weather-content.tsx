@@ -17,8 +17,8 @@ import {
   isDaytime,
 } from '@/utils';
 
-import WeatherIcon from './WeatherIcon';
-import WeatherParameter from './WeatherParameter';
+import WeatherIcon from './weather-icon';
+import WeatherParameter from './weather-parameter';
 
 interface WeatherContentProps {
   weatherData: BmkgWeatherResponse;

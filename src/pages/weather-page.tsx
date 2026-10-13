@@ -1,7 +1,7 @@
 import { Card, CardBody, Option, Select, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 
-import WeatherContent from '@/components/weather/WeatherContent';
+import WeatherContent from '@/components/weather/weather-content';
 import { DEFAULT_ADM4, DEFAULT_PROVINCE_KEY, REGIONS } from '@/constants';
 import { fetchWeather } from '@/services';
 import { BmkgWeatherResponse } from '@/types';

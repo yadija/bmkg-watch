@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { NewestEarthquake } from '@/types';
 
-import EarthquakeDetailSkeleton from './EarthquakeDetailSkeleton';
+import EarthquakeDetailSkeleton from './earthquake-detail-skeleton';
 
 interface EarthquakeDetailProps {
   earthquake: NewestEarthquake | null;

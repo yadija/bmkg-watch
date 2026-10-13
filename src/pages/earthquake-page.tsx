@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import EarthquakeDetail from '@/components/earthquake/EarthquakeDetail';
-import EarthquakeList from '@/components/earthquake/EarthquakeList';
-import EarthquakeMap from '@/components/earthquake/EarthquakeMap';
+import EarthquakeDetail from '@/components/earthquake/earthquake-detail';
+import EarthquakeList from '@/components/earthquake/earthquake-list';
+import EarthquakeMap from '@/components/earthquake/earthquake-map';
 import {
   fetchEarthquake5Min,
   fetchEarthquakeFelt,

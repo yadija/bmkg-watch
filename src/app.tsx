@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
+import Footer from './components/footer';
+import Navbar from './components/navbar';
 
-const HomePage = lazy(() => import('./pages/HomePage'));
-const EarthquakePage = lazy(() => import('./pages/EarthquakePage'));
-const WeatherPage = lazy(() => import('./pages/WeatherPage'));
+const HomePage = lazy(() => import('./pages/home-page'));
+const EarthquakePage = lazy(() => import('./pages/earthquake-page'));
+const WeatherPage = lazy(() => import('./pages/weather-page'));
 
 function PageFallback() {
   return (
