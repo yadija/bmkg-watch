@@ -1,49 +1,27 @@
-import { Card, CardBody, Typography } from '@material-tailwind/react';
+import { Card, CardBody } from '@material-tailwind/react';
 
 export default function EarthquakeDetailSkeleton() {
   return (
-    <Card className='rounded-lg border p-4 shadow-md'>
-      <Typography variant='h1' className='mb-4 text-center text-2xl font-bold'>
-        Info Gempa Terbaru
-      </Typography>
-      <CardBody className='flex flex-col lg:flex-row'>
-        <section className='flex flex-[1] flex-col justify-evenly px-4 lg:px-10'>
-          <Typography
-            as='section'
-            variant='h2'
-            className='mb-4 h-6 w-96 rounded-full bg-gray-300'
-          >
-            &nbsp;
-          </Typography>
+    <Card className='animate-pulse rounded-none border border-gray-300 bg-white shadow-none'>
+      <section className='flex items-center justify-between border-b border-gray-200 bg-gray-50/70 p-4'>
+        <section className='h-5 w-48 bg-gray-200'></section>
+        <section className='h-6 w-16 bg-gray-200'></section>
+      </section>
 
-          {[...Array(8)].map((_, index) => (
-            <Typography
-              key={index}
-              as='section'
-              variant='paragraph'
-              className='mb-4 h-3 w-56 rounded-full bg-gray-300'
-            >
-              &nbsp;
-            </Typography>
-          ))}
-        </section>
-        <section className='m-auto w-full max-w-[450px]'>
-          <section className='grid h-[535px] w-full place-items-center overflow-hidden bg-gray-300'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={2}
-              stroke='currentColor'
-              className='size-12 text-gray-500'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z'
-              />
-            </svg>
+      <CardBody className='flex flex-col gap-6 p-4 lg:flex-row'>
+        <section className='flex flex-1 flex-col gap-3'>
+          <section className='h-16 w-full bg-gray-100'></section>
+          <section className='grid grid-cols-2 gap-2 sm:grid-cols-4'>
+            <section className='h-20 bg-gray-100'></section>
+            <section className='h-20 bg-gray-100'></section>
+            <section className='h-20 bg-gray-100'></section>
+            <section className='h-20 bg-gray-100'></section>
           </section>
+          <section className='h-12 w-full bg-gray-100'></section>
+        </section>
+
+        <section className='w-full shrink-0 lg:w-80'>
+          <section className='h-64 w-full bg-gray-200'></section>
         </section>
       </CardBody>
     </Card>

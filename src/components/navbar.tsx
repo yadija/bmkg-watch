@@ -40,11 +40,15 @@ export default function Navbar() {
   );
 
   return (
-    <NavbarMaterial className='h-max max-w-full rounded-none px-4 py-2 shadow-sm lg:px-8 lg:py-4'>
+    <NavbarMaterial className='h-max max-w-full rounded-none border-b border-gray-300 bg-white px-4 py-3 shadow-none lg:px-8'>
       <section className='flex items-center justify-between text-blue-gray-900'>
-        <Typography as='section' className='mr-4 py-1.5 font-bold'>
-          <Link to='/' className='cursor-pointer text-lg text-blue-gray-900'>
-            BMKG Watch
+        <Typography as='section' className='mr-4 py-1 font-bold'>
+          <Link
+            to='/'
+            className='flex cursor-pointer items-center gap-2 text-lg text-blue-gray-900'
+          >
+            <span className='size-2.5 bg-blue-600'></span>
+            <span className='tracking-tight'>BMKG Watch</span>
           </Link>
         </Typography>
         <section className='flex items-center gap-4'>

@@ -1,12 +1,14 @@
-import {
-  Card,
-  CardBody,
-  Dialog,
-  Option,
-  Select,
-  Typography,
-} from '@material-tailwind/react';
+import { Card, CardBody, Dialog, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
+import {
+  LuActivity,
+  LuAlertTriangle,
+  LuClock,
+  LuExternalLink,
+  LuLayers,
+  LuMapPin,
+  LuRadio,
+} from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 
 import WeatherContent from '@/components/weather/weather-content';
@@ -33,7 +35,7 @@ export default function HomePage() {
   const [adm4, setAdm4] = useState<string>(DEFAULT_ADM4);
   const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
 
-  // dialog
+  // dialog for shakemap preview
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((prev) => !prev);
 
@@ -62,170 +64,302 @@ export default function HomePage() {
 
   return (
     <>
-      <header className='mb-5 rounded-lg border border-green-200 bg-green-100 p-4 shadow-sm'>
-        <Typography variant='paragraph' className='text-lg font-semibold text-green-900'>
-          Data ini diperoleh langsung dari <span className='font-bold'>BMKG</span> (Badan
-          Meteorologi, Klimatologi, dan Geofisika Indonesia).
-        </Typography>
-        <Typography variant='paragraph' className='mt-1 text-sm text-green-800'>
-          BMKG bertanggung jawab untuk menyediakan informasi resmi terkait cuaca, iklim,
-          dan aktivitas seismik di seluruh Indonesia. Untuk informasi lebih lanjut,
-          silakan kunjungi situs web{' '}
+      {/* official bmkg notice banner - uniform border, flat accent tag */}
+      <header className='mb-6 border border-gray-300 bg-white p-4 shadow-none'>
+        <section className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+          <section className='flex items-center gap-3'>
+            <span className='inline-flex shrink-0 items-center border border-teal-700 bg-teal-700 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white'>
+              Resmi BMKG
+            </span>
+            <section>
+              <Typography variant='paragraph' className='text-sm font-bold text-gray-900'>
+                Portal Pemantau Data Meteorologi & Seismik Indonesia
+              </Typography>
+              <Typography variant='paragraph' className='mt-0.5 text-xs text-gray-700'>
+                Informasi resmi disinkronkan secara langsung dari sistem BMKG (Badan
+                Meteorologi, Klimatologi, dan Geofisika).
+              </Typography>
+            </section>
+          </section>
+
           <a
             href='https://www.bmkg.go.id'
             target='_blank'
-            className='font-semibold text-blue-700 underline hover:text-blue-900'
             rel='noreferrer'
+            className='inline-flex shrink-0 items-center justify-center gap-1.5 self-start border border-gray-400 bg-gray-50 px-3 py-2 text-xs font-bold leading-none text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-900 hover:text-white sm:self-center'
           >
-            bmkg.go.id
+            <span className='leading-none'>Situs bmkg.go.id</span>
+            <LuExternalLink size={14} className='shrink-0' />
           </a>
-          .
-        </Typography>
+        </section>
       </header>
 
-      <section className='flex min-h-[calc(100vh-160px)] flex-col-reverse gap-5 lg:flex-row'>
-        <section className='flex-1'>
-          <section className='mb-2 flex items-center justify-between'>
-            <Typography
-              variant='h1'
-              className='text-2xl font-semibold text-blue-gray-900'
-            >
-              Perkiraan Cuaca Hari Ini
-            </Typography>
+      {/* main content grid: 8 cols weather, 4 cols earthquake */}
+      <section className='grid grid-cols-1 items-start gap-6 lg:grid-cols-12'>
+        {/* left column: weather dashboard */}
+        <section className='flex flex-col gap-5 lg:col-span-8'>
+          {/* section heading bar with consistent height and font size */}
+          <section className='flex flex-col gap-2 border-b border-gray-300 pb-3 sm:flex-row sm:items-center sm:justify-between'>
+            <section>
+              <Typography
+                variant='h1'
+                className='text-lg font-bold tracking-tight text-gray-900'
+              >
+                Prakiraan Cuaca Hari Ini
+              </Typography>
+              <p className='mt-0.5 text-xs text-gray-700'>
+                Perkiraan kondisi cuaca, suhu, kelembaban, dan angin per interval waktu
+              </p>
+            </section>
+
             <Link
               to='/weather'
-              className='text-sm font-medium text-blue-600 underline hover:text-blue-800'
+              className='inline-flex items-center justify-center border border-blue-600 bg-blue-600 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-blue-700'
             >
-              lihat semua kota &rarr;
+              Lihat 140+ Kota &rarr;
             </Link>
           </section>
 
-          <section className='mb-4 max-w-sm'>
-            <Select
-              variant='outlined'
-              label='-- Pilih Kota Populer --'
-              value={adm4}
-              onChange={(value) => {
-                if (value) handleCityChange(value);
-              }}
-            >
-              {POPULAR_CITIES.map((city) => (
-                <Option key={city.adm4} value={city.adm4}>
-                  {city.name}
-                </Option>
-              ))}
-            </Select>
+          {/* city selector toolbar with quick chips */}
+          <section className='border border-gray-300 bg-white p-4'>
+            <p className='mb-2 text-xs font-bold uppercase tracking-wider text-gray-700'>
+              Pilih Wilayah Pantauan:
+            </p>
+            <section className='flex flex-wrap items-center gap-2'>
+              <section className='w-full sm:w-72'>
+                <select
+                  aria-label='Pilih Wilayah Pantauan'
+                  value={adm4}
+                  onChange={(e) => handleCityChange(e.target.value)}
+                  className='h-10 w-full rounded-none border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-900 transition-colors focus:border-gray-900 focus:outline-none'
+                >
+                  {POPULAR_CITIES.map((city) => (
+                    <option
+                      key={city.adm4}
+                      value={city.adm4}
+                      className='py-1 text-xs font-bold text-gray-900'
+                    >
+                      {city.name}
+                    </option>
+                  ))}
+                </select>
+              </section>
+
+              {/* quick chips for top cities */}
+              <section className='flex flex-wrap gap-1.5 pt-1 sm:pt-0'>
+                {POPULAR_CITIES.slice(0, 5).map((city) => {
+                  const isActive = city.adm4 === adm4;
+                  return (
+                    <button
+                      key={city.adm4}
+                      onClick={() => handleCityChange(city.adm4)}
+                      className={`h-10 rounded-none border px-3 text-xs font-bold transition-colors ${
+                        isActive
+                          ? 'border-blue-600 bg-blue-600 text-white'
+                          : 'border-gray-300 bg-white text-gray-800 hover:border-gray-900 hover:text-gray-900'
+                      }`}
+                    >
+                      {city.name.split(' (')[0].replace('Kota ', '')}
+                    </button>
+                  );
+                })}
+              </section>
+            </section>
           </section>
 
+          {/* weather content display card - uniform border, no border-top */}
           {loadingWeather ? (
-            <Card className='w-full animate-pulse shadow-sm'>
-              <CardBody>
-                <section className='mb-3 h-6 w-60 rounded bg-gray-300'></section>
-                <section className='h-72 w-full rounded bg-gray-200'></section>
+            <Card className='animate-pulse rounded-none border border-gray-300 bg-white p-6 shadow-none'>
+              <CardBody className='p-0'>
+                <section className='mb-4 h-6 w-56 bg-gray-200'></section>
+                <section className='h-64 w-full bg-gray-100'></section>
               </CardBody>
             </Card>
           ) : weather ? (
-            <Card className='shadow-sm'>
-              <CardBody>
-                <section className='flex items-baseline justify-between'>
-                  <Typography variant='h2' className='text-xl font-semibold'>
+            <Card className='rounded-none border border-gray-300 bg-white shadow-none'>
+              {/* location and timezone bar */}
+              <section className='flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-200 bg-gray-50/70 p-4'>
+                <section>
+                  <Typography variant='h2' className='text-base font-bold text-gray-900'>
                     {weather.lokasi.kotkab},{' '}
-                    <span className='text-sm font-normal text-gray-600'>
+                    <span className='font-normal text-gray-700'>
                       {weather.lokasi.provinsi}
                     </span>
                   </Typography>
-                  <span className='text-xs text-gray-500'>
-                    Zona: {weather.lokasi.timezone}
-                  </span>
+                  <p className='mt-0.5 text-xs text-gray-700'>
+                    Kecamatan: {weather.lokasi.kecamatan || '-'} &bull; Koordinat:{' '}
+                    {weather.lokasi.lat}, {weather.lokasi.lon}
+                  </p>
                 </section>
+                <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900'>
+                  Zona: {weather.lokasi.timezone}
+                </span>
+              </section>
 
+              <CardBody className='p-4 pt-1'>
                 <WeatherContent weatherData={weather} maxDays={1} />
               </CardBody>
             </Card>
           ) : (
-            <Card className='border border-red-200 bg-red-50 p-6 text-center text-red-700'>
-              <Typography variant='paragraph'>
-                Gagal memuat cuaca. Silakan pilih kota lain atau refresh halaman.
+            <Card className='rounded-none border border-red-300 bg-red-50 p-6 text-red-900 shadow-none'>
+              <Typography variant='paragraph' className='font-bold'>
+                Gagal memuat data cuaca untuk wilayah ini. Silakan pilih wilayah lain atau
+                muat ulang halaman.
               </Typography>
             </Card>
           )}
         </section>
 
-        <section className='w-full lg:w-[350px]'>
+        {/* right column: earthquake card */}
+        <section className='lg:col-span-4'>
           {newestEarthquake ? (
-            <Card className='sticky top-2 rounded-lg border p-4 shadow-md'>
-              <CardBody className='flex flex-col'>
-                <Typography
-                  variant='h1'
-                  className='mb-2 text-center text-2xl font-bold text-blue-gray-900'
-                >
+            <Card className='sticky top-4 rounded-none border border-gray-300 bg-white shadow-none'>
+              {/* card header */}
+              <section className='flex items-center justify-between border-b border-gray-200 bg-gray-50/70 p-4'>
+                <Typography variant='h2' className='text-base font-bold text-gray-900'>
                   Info Gempa Terbaru
                 </Typography>
-                <button
-                  className='m-auto w-full transition-transform hover:scale-[1.02]'
-                  onClick={handleOpen}
-                >
-                  <img
-                    src={`https://data.bmkg.go.id/DataMKG/TEWS/${newestEarthquake.shakemap}`}
-                    alt='Shakemap'
-                    className='h-auto w-full cursor-pointer overflow-hidden rounded shadow-sm transition-opacity hover:opacity-90'
-                    title={newestEarthquake.wilayah}
-                  />
-                </button>
-                <section className='mt-3 text-xs text-gray-600'>
-                  <p className='font-semibold text-gray-800'>
-                    {newestEarthquake.wilayah}
-                  </p>
-                  <p>
-                    Magnitudo:{' '}
-                    <span className='font-bold text-red-600'>
-                      {newestEarthquake.magnitude}
-                    </span>{' '}
-                    &bull; Kedalaman: {newestEarthquake.kedalaman}
-                  </p>
-                  <p>
-                    {newestEarthquake.tanggal} {newestEarthquake.jam}
-                  </p>
+                <span className='border border-red-600 bg-red-600 px-2.5 py-1 text-xs font-bold tracking-wider text-white'>
+                  M {newestEarthquake.magnitude}
+                </span>
+              </section>
+
+              <CardBody className='flex flex-col gap-4 p-4'>
+                {/* shakemap image */}
+                <section>
+                  <button
+                    className='group relative block w-full border border-gray-300 bg-gray-100'
+                    onClick={handleOpen}
+                    title='Klik untuk memperbesar shakemap'
+                  >
+                    <img
+                      src={`https://data.bmkg.go.id/DataMKG/TEWS/${newestEarthquake.shakemap}`}
+                      alt='Shakemap'
+                      className='h-auto w-full transition-opacity group-hover:opacity-90'
+                    />
+                  </button>
                 </section>
+
+                {/* flat earthquake metrics tiles with high contrast and consistent height */}
+                <section className='flex flex-col gap-2'>
+                  <section className='border border-gray-200 bg-gray-50 p-3'>
+                    <section className='flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gray-700'>
+                      <LuMapPin size={14} className='text-red-600' />
+                      <span>Pusat Episentrum</span>
+                    </section>
+                    <p className='mt-1 text-sm font-bold text-gray-900'>
+                      {newestEarthquake.wilayah}
+                    </p>
+                  </section>
+
+                  <section className='grid grid-cols-2 gap-2'>
+                    <section className='flex h-20 flex-col justify-between border border-gray-200 bg-white p-2.5'>
+                      <section className='flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-gray-700'>
+                        <LuActivity size={13} className='text-red-600' />
+                        <span>Magnitudo</span>
+                      </section>
+                      <p className='text-xl font-bold text-red-600'>
+                        M {newestEarthquake.magnitude}
+                      </p>
+                    </section>
+
+                    <section className='flex h-20 flex-col justify-between border border-gray-200 bg-white p-2.5'>
+                      <section className='flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-gray-700'>
+                        <LuLayers size={13} className='text-blue-600' />
+                        <span>Kedalaman</span>
+                      </section>
+                      <p className='text-lg font-bold text-gray-900'>
+                        {newestEarthquake.kedalaman}
+                      </p>
+                    </section>
+                  </section>
+
+                  <section className='border border-gray-200 bg-white p-3'>
+                    <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-700'>
+                      <LuClock size={13} className='text-gray-700' />
+                      <span>Waktu Terjadinya</span>
+                    </section>
+                    <p className='mt-1 text-xs font-bold text-gray-900'>
+                      {newestEarthquake.tanggal} &bull; {newestEarthquake.jam} WIB
+                    </p>
+                  </section>
+
+                  {newestEarthquake.potensi && (
+                    <section className='border border-amber-300 bg-amber-50 p-3'>
+                      <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-900'>
+                        <LuAlertTriangle size={13} className='text-amber-800' />
+                        <span>Potensi Tsunami</span>
+                      </section>
+                      <p className='mt-1 text-xs font-bold text-amber-900'>
+                        {newestEarthquake.potensi}
+                      </p>
+                    </section>
+                  )}
+
+                  {newestEarthquake.dirasakan && (
+                    <section className='border border-blue-300 bg-blue-50 p-3'>
+                      <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-900'>
+                        <LuRadio size={13} className='text-blue-800' />
+                        <span>Dirasakan (MMI)</span>
+                      </section>
+                      <p className='mt-1 text-xs font-bold text-blue-900'>
+                        {newestEarthquake.dirasakan}
+                      </p>
+                    </section>
+                  )}
+                </section>
+
+                {/* cta link to full earthquake page */}
+                <Link
+                  to='/earthquake'
+                  className='flex h-10 items-center justify-center border border-gray-900 bg-gray-900 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-gray-800'
+                >
+                  Buka Peta Gempa Terpadu &rarr;
+                </Link>
               </CardBody>
             </Card>
           ) : (
-            <Card className='sticky top-2 rounded-lg border p-4 shadow-md'>
-              <CardBody>
-                <Typography variant='h1' className='mb-2 text-center text-2xl font-bold'>
-                  Info Gempa Terbaru
-                </Typography>
-
-                <section className='m-auto w-full animate-pulse'>
-                  <section className='grid h-[300px] w-full place-items-center overflow-hidden rounded bg-gray-300'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={2}
-                      stroke='currentColor'
-                      className='size-12 text-gray-500'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z'
-                      />
-                    </svg>
-                  </section>
-                </section>
+            <Card className='animate-pulse rounded-none border border-gray-300 bg-white p-5 shadow-none'>
+              <CardBody className='p-0'>
+                <section className='mb-3 h-5 w-44 bg-gray-200'></section>
+                <section className='h-64 w-full bg-gray-100'></section>
               </CardBody>
             </Card>
           )}
         </section>
       </section>
 
-      <Dialog size='sm' open={open} handler={handleOpen}>
-        <img
-          src={`https://data.bmkg.go.id/DataMKG/TEWS/${newestEarthquake?.shakemap}`}
-          alt='Shakemap'
-          className='h-auto w-full rounded'
-        />
+      {/* modal dialog with flat square container */}
+      <Dialog
+        size='sm'
+        open={open}
+        handler={handleOpen}
+        className='!rounded-none border border-gray-300 bg-white p-4 !shadow-none'
+      >
+        <section className='mb-3 flex items-center justify-between border-b border-gray-200 pb-2'>
+          <section className='flex items-center gap-2'>
+            <span className='border border-red-600 bg-red-600 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-white'>
+              Shakemap
+            </span>
+            <h3 className='text-xs font-bold uppercase tracking-wider text-gray-900'>
+              Peta Guncangan Gempa BMKG
+            </h3>
+          </section>
+          <button
+            onClick={handleOpen}
+            className='border border-gray-300 bg-gray-50 px-2.5 py-1 text-xs font-bold text-gray-800 transition-colors hover:border-gray-900 hover:bg-gray-900 hover:text-white'
+          >
+            Tutup &times;
+          </button>
+        </section>
+
+        {newestEarthquake?.shakemap && (
+          <img
+            src={`https://data.bmkg.go.id/DataMKG/TEWS/${newestEarthquake.shakemap}`}
+            alt='Shakemap'
+            className='h-auto w-full border border-gray-200 bg-gray-100'
+          />
+        )}
       </Dialog>
     </>
   );

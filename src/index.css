@@ -1,3 +1,107 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* flat swiper navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #0f172a !important;
+  width: 34px !important;
+  height: 34px !important;
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #f8fafc !important;
+  border-color: #64748b !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+/* flat leaflet popup */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-content-wrapper * {
+  box-sizing: border-box;
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid #d1d5db !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip-container {
+  display: none !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  top: 6px !important;
+  right: 6px !important;
+  color: #4b5563 !important;
+  font-size: 16px !important;
+  width: 20px !important;
+  height: 20px !important;
+  line-height: 18px !important;
+  border-radius: 0 !important;
+  border: 1px solid #e5e7eb !important;
+  background-color: #f9fafb !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  padding: 0 !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: #111827 !important;
+  border-color: #111827 !important;
+  background-color: #ffffff !important;
+}
+
+/* flat leaflet zoom controls */
+.leaflet-bar {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.leaflet-bar a {
+  border-radius: 0 !important;
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+.leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+
+/* flat dialog & modal containers */
+div[role='dialog'],
+div[data-floating-ui-portal] > div > div > div,
+div[class*='backdrop-blur'] > div {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}

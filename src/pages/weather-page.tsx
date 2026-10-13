@@ -1,4 +1,4 @@
-import { Card, CardBody, Option, Select, Typography } from '@material-tailwind/react';
+import { Card, CardBody, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 
 import WeatherContent from '@/components/weather/weather-content';
@@ -43,95 +43,131 @@ export default function WeatherPage() {
 
   return (
     <section className='min-h-[calc(100vh-160px)] py-4'>
-      <Card className='mb-5 shadow-sm'>
-        <CardBody className='flex flex-col justify-between gap-4 md:flex-row md:items-center'>
-          <section>
-            <Typography variant='h1' className='text-2xl font-bold text-blue-gray-900'>
-              Prakiraan Cuaca Indonesia
-            </Typography>
-            <Typography variant='small' className='text-gray-600'>
-              Sumber: Open Data Resmi BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)
-            </Typography>
+      {/* page header notice banner - uniform border, flat accent tag */}
+      <header className='mb-6 border border-gray-300 bg-white p-4 shadow-none'>
+        <section className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+          <section className='flex items-center gap-3'>
+            <span className='inline-flex shrink-0 items-center border border-blue-600 bg-blue-600 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white'>
+              Prakiraan Cuaca
+            </span>
+            <section>
+              <Typography variant='h1' className='text-base font-bold text-gray-900'>
+                Prakiraan Cuaca Seluruh Wilayah Indonesia
+              </Typography>
+              <Typography variant='paragraph' className='mt-0.5 text-xs text-gray-700'>
+                Data resmi dari sistem Open Data BMKG (Badan Meteorologi, Klimatologi, dan
+                Geofisika).
+              </Typography>
+            </section>
           </section>
 
           {locationInfo && (
-            <section className='rounded-lg bg-blue-50 p-3 text-right text-xs text-blue-gray-800'>
-              <p className='font-bold text-blue-800'>
+            <section className='border border-gray-300 bg-gray-50 px-3 py-2 text-xs font-bold text-gray-900'>
+              <span>
                 {locationInfo.kotkab}, {locationInfo.provinsi}
-              </p>
-              <p className='text-gray-600'>
-                Kec. {locationInfo.kecamatan} &bull; Koordinat: {locationInfo.lat},{' '}
+              </span>
+              <span className='block text-[11px] font-normal text-gray-600'>
+                Kec. {locationInfo.kecamatan} &bull; {locationInfo.lat},{' '}
                 {locationInfo.lon}
-              </p>
+              </span>
             </section>
           )}
-        </CardBody>
-      </Card>
+        </section>
+      </header>
 
-      <Card className='mb-5 shadow-sm'>
-        <CardBody className='flex flex-col gap-4 sm:flex-row'>
+      {/* filter selectors */}
+      <section className='mb-6 border border-gray-300 bg-white p-4 shadow-none'>
+        <p className='mb-3 text-xs font-bold uppercase tracking-wider text-gray-700'>
+          Pilih Wilayah Provinsi & Kabupaten / Kota:
+        </p>
+        <section className='flex flex-col gap-3 sm:flex-row'>
           <section className='flex-1'>
-            <Select
-              variant='outlined'
-              label='-- Pilih Provinsi --'
+            <label
+              htmlFor='province-select'
+              className='mb-1 block text-xs font-bold text-gray-700'
+            >
+              Provinsi
+            </label>
+            <select
+              id='province-select'
               value={provinceKey}
-              onChange={(value) => {
-                if (value) handleProvinceChange(value);
-              }}
+              onChange={(e) => handleProvinceChange(e.target.value)}
+              className='h-10 w-full rounded-none border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-900 transition-colors focus:border-gray-900 focus:outline-none'
             >
               {Object.keys(REGIONS).map((key) => (
-                <Option key={key} value={key}>
+                <option
+                  key={key}
+                  value={key}
+                  className='py-1 text-xs font-bold text-gray-900'
+                >
                   {REGIONS[key].name}
-                </Option>
+                </option>
               ))}
-            </Select>
+            </select>
           </section>
 
           <section className='flex-1'>
-            <Select
-              variant='outlined'
-              label='-- Pilih Kabupaten / Kota --'
+            <label
+              htmlFor='city-select'
+              className='mb-1 block text-xs font-bold text-gray-700'
+            >
+              Kabupaten / Kota
+            </label>
+            <select
+              id='city-select'
               value={adm4}
-              onChange={(value) => {
-                if (value) handleCityChange(value);
-              }}
+              onChange={(e) => handleCityChange(e.target.value)}
               disabled={currentCities.length === 0}
+              className='h-10 w-full rounded-none border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-900 transition-colors focus:border-gray-900 focus:outline-none disabled:bg-gray-100 disabled:text-gray-400'
             >
               {currentCities.map((city) => (
-                <Option key={city.adm4} value={city.adm4}>
+                <option
+                  key={city.adm4}
+                  value={city.adm4}
+                  className='py-1 text-xs font-bold text-gray-900'
+                >
                   {city.name}
-                </Option>
+                </option>
               ))}
-            </Select>
+            </select>
           </section>
-        </CardBody>
-      </Card>
+        </section>
+      </section>
 
+      {/* weather display section */}
       {loading ? (
-        <Card className='mt-5 w-full animate-pulse shadow-sm'>
-          <CardBody>
-            <section className='mb-4 h-6 w-60 rounded bg-gray-300'></section>
-            <section className='h-64 w-full rounded bg-gray-200'></section>
+        <Card className='animate-pulse rounded-none border border-gray-300 bg-white p-6 shadow-none'>
+          <CardBody className='p-0'>
+            <section className='mb-4 h-6 w-60 bg-gray-200'></section>
+            <section className='h-64 w-full bg-gray-100'></section>
           </CardBody>
         </Card>
       ) : weather ? (
-        <Card className='mt-5 shadow-sm'>
-          <CardBody>
-            <section className='flex flex-wrap items-baseline justify-between border-b pb-3'>
-              <Typography variant='h2' className='text-xl font-bold text-blue-gray-900'>
-                {locationInfo?.kotkab || 'Lokasi Terpilih'}
+        <Card className='rounded-none border border-gray-300 bg-white shadow-none'>
+          <section className='flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-200 bg-gray-50/70 p-4'>
+            <section>
+              <Typography variant='h2' className='text-base font-bold text-gray-900'>
+                {locationInfo?.kotkab || 'Lokasi Terpilih'},{' '}
+                <span className='font-normal text-gray-700'>
+                  {locationInfo?.provinsi}
+                </span>
               </Typography>
-              <span className='text-sm text-gray-500'>
-                Prakiraan 3 Hari ke Depan (Interval per 3 Jam)
-              </span>
+              <p className='mt-0.5 text-xs text-gray-700'>
+                Prakiraan 3 Hari ke Depan &bull; Interval per 3 Jam
+              </p>
             </section>
+            <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900'>
+              Zona: {weather.lokasi.timezone}
+            </span>
+          </section>
 
+          <CardBody className='p-4 pt-1'>
             <WeatherContent weatherData={weather} />
           </CardBody>
         </Card>
       ) : (
-        <Card className='mt-5 border border-red-200 bg-red-50 p-6 text-center text-red-700'>
-          <Typography variant='paragraph'>
+        <Card className='rounded-none border border-red-300 bg-red-50 p-6 text-red-900 shadow-none'>
+          <Typography variant='paragraph' className='text-sm font-bold'>
             Gagal memuat data cuaca untuk wilayah ini. Silakan periksa koneksi internet
             atau pilih wilayah lain.
           </Typography>

@@ -22,11 +22,11 @@ export default function EarthquakeList({
 
   return (
     <section className='my-4 w-full'>
-      <section className='mb-3 flex items-center justify-between border-b pb-2'>
-        <Typography variant='h2' className='text-lg font-bold text-blue-gray-900'>
+      <section className='mb-3 flex items-center justify-between border-b border-gray-200 pb-2'>
+        <Typography variant='h2' className='text-base font-bold text-gray-900'>
           {title}
         </Typography>
-        <span className='rounded bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-700'>
+        <span className='rounded-none border border-gray-300 bg-white px-2.5 py-0.5 text-xs font-bold text-gray-800'>
           {earthquakes.length} Gempa
         </span>
       </section>
