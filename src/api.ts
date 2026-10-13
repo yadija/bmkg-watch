@@ -50,7 +50,12 @@ export const fetchNewestEarthquake = async (): Promise<NewestEarthquake | null> 
     const wilayah = gempa.getElementsByTagName('Wilayah')[0].textContent || '';
     const potensi = gempa.getElementsByTagName('Potensi')[0].textContent || '';
     const dirasakan = gempa.getElementsByTagName('Dirasakan')[0].textContent || '';
-    const shakemap = gempa.getElementsByTagName('Shakemap')[0].textContent || '';
+    const shakemap = gempa.getElementsByTagName('Shakemap')[0]?.textContent || '';
+    const rawCoordinates =
+      gempa.getElementsByTagName('Coordinates')[0]?.textContent ||
+      gempa.getElementsByTagName('coordinates')[0]?.textContent ||
+      '';
+    const coordinates = rawCoordinates ? rawCoordinates.split(',') : [];
 
     return {
       tanggal,
@@ -63,6 +68,7 @@ export const fetchNewestEarthquake = async (): Promise<NewestEarthquake | null> 
       potensi,
       dirasakan,
       shakemap,
+      coordinates,
     };
   } catch (error) {
     console.error('Error fetching earthquake data:', error);

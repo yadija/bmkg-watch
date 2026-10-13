@@ -9,6 +9,7 @@ export interface NewestEarthquake {
   potensi: string;
   dirasakan: string;
   shakemap: string;
+  coordinates?: string[];
 }
 
 export interface EarthquakeData {

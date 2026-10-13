@@ -1,86 +1,93 @@
 import { Card, CardBody, Typography } from '@material-tailwind/react';
-import L from 'leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import { EarthquakeData } from '../../interface';
 
 interface EarthquakeItemProps {
   earthquake: EarthquakeData;
+  onSelect?: (coordinates: [number, number]) => void;
 }
 
-const DefaultIcon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-});
+export default function EarthquakeItem({ earthquake, onSelect }: EarthquakeItemProps) {
+  const mag = parseFloat(earthquake.magnitude);
+  const isHighMagnitude = !isNaN(mag) && mag >= 5.0;
 
-L.Marker.prototype.options.icon = DefaultIcon;
+  const lat = Number(earthquake.coordinates[0]);
+  const lon = Number(earthquake.coordinates[1]);
+  const hasValidCoord = !isNaN(lat) && !isNaN(lon);
 
-export default function EarthquakeItem({ earthquake }: EarthquakeItemProps) {
+  const handleFocus = () => {
+    if (onSelect && hasValidCoord) {
+      onSelect([lat, lon]);
+    }
+  };
+
   return (
-    <Card className='flex w-full flex-col justify-evenly xl:flex-row'>
-      <CardBody className='flex w-full flex-col justify-evenly'>
-        <Typography variant='h2' className='mb-2 text-xl font-semibold'>
-          {earthquake.wilayah}
-        </Typography>
+    <Card className='w-full border border-gray-100 shadow-sm transition-all hover:border-blue-200 hover:shadow-md'>
+      <CardBody className='flex flex-col justify-between gap-4 p-5 sm:flex-row sm:items-center'>
+        <div className='flex-1'>
+          <div className='mb-2 flex items-center gap-3'>
+            <span
+              className={`rounded-full px-2.5 py-1 text-xs font-bold text-white shadow-sm ${
+                isHighMagnitude ? 'bg-red-600' : 'bg-amber-600'
+              }`}
+            >
+              M {earthquake.magnitude}
+            </span>
+            <Typography variant='h3' className='text-base font-bold text-blue-gray-900'>
+              {earthquake.wilayah}
+            </Typography>
+          </div>
 
-        <Typography variant='paragraph'>
-          <span className='font-bold'>Tanggal:</span> {earthquake.tanggal}
-        </Typography>
-        <Typography variant='paragraph'>
-          <span className='font-bold'>Jam:</span> {earthquake.jam}
-        </Typography>
-        <Typography variant='paragraph'>
-          <span className='font-bold'>Latitude:</span> {earthquake.lintang}
-        </Typography>
-        <Typography variant='paragraph'>
-          <span className='font-bold'>Longitude:</span> {earthquake.bujur}
-        </Typography>
-        <Typography variant='paragraph'>
-          <span className='font-bold'>Magnitude:</span> {earthquake.magnitude}
-        </Typography>
-        <Typography variant='paragraph'>
-          <span className='font-bold'>Kedalaman:</span> {earthquake.kedalaman}
-        </Typography>
-        {earthquake.potensi && (
-          <Typography variant='paragraph'>
-            <span className='font-bold'>Potensi:</span> {earthquake.potensi}
-          </Typography>
-        )}
-        {earthquake.dirasakan && (
-          <Typography variant='paragraph'>
-            <span className='font-bold'>Dirasakan (Skala MMI):</span>{' '}
-            {earthquake.dirasakan}
-          </Typography>
+          <div className='grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-600 sm:grid-cols-4'>
+            <p>
+              <span className='font-semibold text-gray-800'>Waktu:</span>{' '}
+              {earthquake.tanggal} {earthquake.jam}
+            </p>
+            <p>
+              <span className='font-semibold text-gray-800'>Kedalaman:</span>{' '}
+              {earthquake.kedalaman}
+            </p>
+            <p>
+              <span className='font-semibold text-gray-800'>Koordinat:</span>{' '}
+              {earthquake.lintang}, {earthquake.bujur}
+            </p>
+            {earthquake.potensi && (
+              <p className='col-span-2 sm:col-span-1'>
+                <span className='font-semibold text-gray-800'>Potensi:</span>{' '}
+                <span className='text-red-700'>{earthquake.potensi}</span>
+              </p>
+            )}
+            {earthquake.dirasakan && (
+              <p className='col-span-2 sm:col-span-1'>
+                <span className='font-semibold text-gray-800'>Dirasakan:</span>{' '}
+                <span className='text-amber-800'>{earthquake.dirasakan}</span>
+              </p>
+            )}
+          </div>
+        </div>
+
+        {hasValidCoord && onSelect && (
+          <button
+            onClick={handleFocus}
+            className='flex items-center justify-center gap-1.5 self-start whitespace-nowrap rounded-lg border border-blue-500/30 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition-colors hover:bg-blue-600 hover:text-white sm:self-center'
+            title='Tampilkan episentrum ini di peta terpadu'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 20 20'
+              fill='currentColor'
+              className='size-4'
+            >
+              <path
+                fillRule='evenodd'
+                d='m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z'
+                clipRule='evenodd'
+              />
+            </svg>
+            Pusatkan di Peta
+          </button>
         )}
       </CardBody>
-
-      <section className='w-full xl:mt-0 xl:max-w-[350px]'>
-        <MapContainer
-          center={[Number(earthquake.coordinates[0]), Number(earthquake.coordinates[1])]}
-          zoom={8}
-          scrollWheelZoom={false}
-          className='h-96 w-full'
-        >
-          <TileLayer
-            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Marker
-            position={[
-              Number(earthquake.coordinates[0]),
-              Number(earthquake.coordinates[1]),
-            ]}
-            // icon={icon}
-          >
-            <Popup>{earthquake.potensi || earthquake.dirasakan}</Popup>
-          </Marker>
-        </MapContainer>
-      </section>
     </Card>
   );
 }
