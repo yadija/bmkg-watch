@@ -93,7 +93,7 @@ export default function HomePage() {
               Perkiraan Cuaca Hari Ini
             </Typography>
             <Link
-              to='/cuaca'
+              to='/weather'
               className='text-sm font-medium text-blue-600 underline hover:text-blue-800'
             >
               lihat semua kota &rarr;

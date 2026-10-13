@@ -24,8 +24,8 @@ export default function App() {
         <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route path='/' element={<HomePage />} />
-            <Route path='/gempa' element={<EarthquakePage />} />
-            <Route path='/cuaca' element={<WeatherPage />} />
+            <Route path='/earthquake' element={<EarthquakePage />} />
+            <Route path='/weather' element={<WeatherPage />} />
           </Routes>
         </Suspense>
       </main>

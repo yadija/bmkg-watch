@@ -20,7 +20,7 @@ export default function Navbar() {
     <ul className='mb-4 mt-2 flex flex-col gap-2 lg:my-0 lg:flex-row lg:items-center lg:gap-6'>
       <Typography as='li' variant='small' color='blue-gray' className='p-1 font-normal'>
         <Link
-          to='/cuaca'
+          to='/weather'
           onClick={() => setOpenNav(false)}
           className='flex items-center font-medium hover:text-blue-500 hover:underline'
         >
@@ -29,7 +29,7 @@ export default function Navbar() {
       </Typography>
       <Typography as='li' variant='small' color='blue-gray' className='p-1 font-normal'>
         <Link
-          to='/gempa'
+          to='/earthquake'
           onClick={() => setOpenNav(false)}
           className='flex items-center font-medium hover:text-blue-500 hover:underline'
         >
