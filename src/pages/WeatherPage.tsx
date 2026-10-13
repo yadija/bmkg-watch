@@ -1,10 +1,10 @@
 import { Card, CardBody, Option, Select, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 
-import { fetchWeather } from '../api';
-import WeatherContent from '../components/weather/WeatherContent';
-import { DEFAULT_ADM4, DEFAULT_PROVINCE_KEY, REGIONS } from '../constant';
-import { BmkgWeatherResponse } from '../interface';
+import WeatherContent from '@/components/weather/WeatherContent';
+import { DEFAULT_ADM4, DEFAULT_PROVINCE_KEY, REGIONS } from '@/constants';
+import { fetchWeather } from '@/services';
+import { BmkgWeatherResponse } from '@/types';
 
 export default function WeatherPage() {
   const [provinceKey, setProvinceKey] = useState<string>(DEFAULT_PROVINCE_KEY);

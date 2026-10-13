@@ -1,5 +1,5 @@
-import { CARD } from '../constant';
-import { BmkgWeatherEntry, BmkgWeatherResponse } from '../interface';
+import { CARD } from '@/constants';
+import { BmkgWeatherEntry, BmkgWeatherResponse } from '@/types';
 
 export interface FormattedDailyWeather {
   dateLabel: string;

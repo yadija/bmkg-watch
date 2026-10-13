@@ -9,10 +9,10 @@ import {
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { fetchNewestEarthquake, fetchWeather } from '../api';
-import WeatherContent from '../components/weather/WeatherContent';
-import { DEFAULT_ADM4 } from '../constant';
-import { BmkgWeatherResponse, NewestEarthquake } from '../interface';
+import WeatherContent from '@/components/weather/WeatherContent';
+import { DEFAULT_ADM4 } from '@/constants';
+import { fetchNewestEarthquake, fetchWeather } from '@/services';
+import { BmkgWeatherResponse, NewestEarthquake } from '@/types';
 
 const POPULAR_CITIES = [
   { name: 'Jakarta Pusat (DKI Jakarta)', adm4: '31.71.03.1001' },

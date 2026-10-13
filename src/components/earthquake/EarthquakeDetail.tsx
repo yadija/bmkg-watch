@@ -1,8 +1,9 @@
 import { Card, CardBody, Dialog, Typography } from '@material-tailwind/react';
 import { useState } from 'react';
 
-import { NewestEarthquake } from '../../interface';
-import EarthquakeDetailSkeleton from '../skeleton/EarthquakeDetailSkeleton';
+import { NewestEarthquake } from '@/types';
+
+import EarthquakeDetailSkeleton from './EarthquakeDetailSkeleton';
 
 interface EarthquakeDetailProps {
   earthquake: NewestEarthquake | null;

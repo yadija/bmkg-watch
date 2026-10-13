@@ -3,7 +3,7 @@ import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 
-import { EarthquakeData, NewestEarthquake } from '../../interface';
+import { EarthquakeData, NewestEarthquake } from '@/types';
 
 interface EarthquakeMapProps {
   newestEarthquake: NewestEarthquake | null;

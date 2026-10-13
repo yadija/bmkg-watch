@@ -1,7 +1,7 @@
-import { DEFAULT_ADM4 } from './constant';
-import { BmkgWeatherResponse, EarthquakeData, NewestEarthquake } from './interface';
+import { EarthquakeData, NewestEarthquake } from '@/types';
 
-const parseEarthquakeData = (xmlDoc: XMLDocument) => {
+// parse xml response from bmkg earthquake endpoint
+const parseEarthquakeData = (xmlDoc: XMLDocument): EarthquakeData[] => {
   const gempaElements = Array.from(xmlDoc.getElementsByTagName('gempa'));
   return gempaElements.map((gempa) => {
     const tanggal = gempa.getElementsByTagName('Tanggal')[0].textContent || '';
@@ -31,6 +31,7 @@ const parseEarthquakeData = (xmlDoc: XMLDocument) => {
   });
 };
 
+// fetch the latest single earthquake event
 export const fetchNewestEarthquake = async (): Promise<NewestEarthquake | null> => {
   const url = 'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.xml';
   try {
@@ -76,6 +77,7 @@ export const fetchNewestEarthquake = async (): Promise<NewestEarthquake | null> 
   }
 };
 
+// fetch the last 15 earthquakes with magnitude 5.0+
 export const fetchEarthquake5Min = async (): Promise<EarthquakeData[] | null> => {
   const url = 'https://data.bmkg.go.id/DataMKG/TEWS/gempaterkini.xml';
   try {
@@ -90,6 +92,7 @@ export const fetchEarthquake5Min = async (): Promise<EarthquakeData[] | null> =>
   }
 };
 
+// fetch the last 15 felt earthquakes
 export const fetchEarthquakeFelt = async (): Promise<EarthquakeData[] | null> => {
   const url = 'https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.xml';
   try {
@@ -100,23 +103,6 @@ export const fetchEarthquakeFelt = async (): Promise<EarthquakeData[] | null> =>
     return parseEarthquakeData(xmlDoc);
   } catch (error) {
     console.error('Error fetching earthquake data:', error);
-    return null;
-  }
-};
-
-export const fetchWeather = async (
-  adm4: string = DEFAULT_ADM4,
-): Promise<BmkgWeatherResponse | null> => {
-  const url = `https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4=${encodeURIComponent(adm4)}`;
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error ${response.status}`);
-    }
-    const data: BmkgWeatherResponse = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching weather data from BMKG REST API:', error);
     return null;
   }
 };

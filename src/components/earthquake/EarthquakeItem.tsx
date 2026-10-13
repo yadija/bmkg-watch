@@ -1,6 +1,6 @@
 import { Card, CardBody, Typography } from '@material-tailwind/react';
 
-import { EarthquakeData } from '../../interface';
+import { EarthquakeData } from '@/types';
 
 interface EarthquakeItemProps {
   earthquake: EarthquakeData;

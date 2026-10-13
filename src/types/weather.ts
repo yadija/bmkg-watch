@@ -1,31 +1,5 @@
-export interface NewestEarthquake {
-  tanggal: string;
-  jam: string;
-  lintang: string;
-  bujur: string;
-  magnitude: string;
-  kedalaman: string;
-  wilayah: string;
-  potensi: string;
-  dirasakan: string;
-  shakemap: string;
-  coordinates?: string[];
-}
+// types for bmkg rest json weather api
 
-export interface EarthquakeData {
-  tanggal: string;
-  jam: string;
-  coordinates: string[];
-  lintang: string;
-  bujur: string;
-  magnitude: string;
-  kedalaman: string;
-  wilayah: string;
-  potensi?: string;
-  dirasakan?: string;
-}
-
-// new bmkg weather rest json interfaces
 export interface BmkgWeatherLocation {
   adm1: string;
   adm2: string;

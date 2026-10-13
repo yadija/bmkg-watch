@@ -9,13 +9,14 @@ import { Navigation } from 'swiper/modules';
 // import swiper react components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { BmkgWeatherResponse } from '../../interface';
+import { BmkgWeatherResponse } from '@/types';
 import {
   formatDailyWeatherData,
   formatTimeOnly,
   getWindDirectionName,
   isDaytime,
-} from '../../utils';
+} from '@/utils';
+
 import WeatherIcon from './WeatherIcon';
 import WeatherParameter from './WeatherParameter';
 

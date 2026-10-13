@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { fetchEarthquake5Min, fetchEarthquakeFelt, fetchNewestEarthquake } from '../api';
-import EarthquakeDetail from '../components/earthquake/EarthquakeDetail';
-import EarthquakeList from '../components/earthquake/EarthquakeList';
-import EarthquakeMap from '../components/earthquake/EarthquakeMap';
-import { EarthquakeData, NewestEarthquake } from '../interface';
+import EarthquakeDetail from '@/components/earthquake/EarthquakeDetail';
+import EarthquakeList from '@/components/earthquake/EarthquakeList';
+import EarthquakeMap from '@/components/earthquake/EarthquakeMap';
+import {
+  fetchEarthquake5Min,
+  fetchEarthquakeFelt,
+  fetchNewestEarthquake,
+} from '@/services';
+import { EarthquakeData, NewestEarthquake } from '@/types';
 
 export default function EarthquakePage() {
   const [newestEarthquake, setNewestEarthquake] = useState<NewestEarthquake | null>(null);

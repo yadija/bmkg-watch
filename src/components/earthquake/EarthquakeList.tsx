@@ -1,8 +1,9 @@
 import { Typography } from '@material-tailwind/react';
 
-import { EarthquakeData } from '../../interface';
-import EarthquakeListSkeleton from '../skeleton/EarthquakeListSkeleton';
+import { EarthquakeData } from '@/types';
+
 import EarthquakeItem from './EarthquakeItem';
+import EarthquakeListSkeleton from './EarthquakeListSkeleton';
 
 interface EarthquakeListProps {
   title: string;
