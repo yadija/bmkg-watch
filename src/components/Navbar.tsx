@@ -41,14 +41,14 @@ export default function Navbar() {
 
   return (
     <NavbarMaterial className='h-max max-w-full rounded-none px-4 py-2 shadow-sm lg:px-8 lg:py-4'>
-      <div className='flex items-center justify-between text-blue-gray-900'>
-        <Typography as='div' className='mr-4 py-1.5 font-bold'>
+      <section className='flex items-center justify-between text-blue-gray-900'>
+        <Typography as='section' className='mr-4 py-1.5 font-bold'>
           <Link to='/' className='cursor-pointer text-lg text-blue-gray-900'>
             BMKG Watch
           </Link>
         </Typography>
-        <div className='flex items-center gap-4'>
-          <div className='mr-4 hidden lg:block'>{navList}</div>
+        <section className='flex items-center gap-4'>
+          <section className='mr-4 hidden lg:block'>{navList}</section>
           <IconButton
             variant='text'
             className='ml-auto size-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden'
@@ -86,8 +86,8 @@ export default function Navbar() {
               </svg>
             )}
           </IconButton>
-        </div>
-      </div>
+        </section>
+      </section>
       <Collapse open={openNav}>{navList}</Collapse>
     </NavbarMaterial>
   );

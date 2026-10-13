@@ -10,9 +10,9 @@ const WeatherPage = lazy(() => import('./pages/WeatherPage'));
 
 function PageFallback() {
   return (
-    <div className='flex min-h-[50vh] items-center justify-center'>
-      <div className='size-9 animate-spin rounded-full border-4 border-blue-600 border-t-transparent'></div>
-    </div>
+    <section className='flex min-h-[50vh] items-center justify-center'>
+      <section className='size-9 animate-spin rounded-full border-4 border-blue-600 border-t-transparent'></section>
+    </section>
   );
 }
 

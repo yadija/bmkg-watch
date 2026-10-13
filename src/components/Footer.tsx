@@ -10,7 +10,7 @@ export default function Footer() {
         &copy;{new Date().getFullYear()} BMKG Watch. All Rights Reserved.
       </Typography>
 
-      <div className='flex gap-4 text-blue-gray-900 sm:justify-center'>
+      <section className='flex gap-4 text-blue-gray-900 sm:justify-center'>
         <Typography
           as='a'
           href='https://linkedin.com/in/achmad-yuliadi'
@@ -85,7 +85,7 @@ export default function Footer() {
             />
           </svg>
         </Typography>
-      </div>
+      </section>
     </footer>
   );
 }

@@ -111,18 +111,18 @@ export default function EarthquakeMap({
 
   return (
     <Card className='my-5 overflow-hidden shadow-sm'>
-      <div className='flex flex-wrap items-center justify-between border-b bg-gray-50/50 p-4'>
-        <div>
+      <section className='flex flex-wrap items-center justify-between border-b bg-gray-50/50 p-4'>
+        <section>
           <Typography variant='h2' className='text-xl font-bold text-blue-gray-900'>
             Peta Sebaran Gempa Bumi Indonesia
           </Typography>
           <Typography variant='small' className='text-gray-600'>
             Satu peta terpadu untuk memantau semua titik episentrum gempa BMKG
           </Typography>
-        </div>
+        </section>
 
         {/* filter badges */}
-        <div className='mt-2 flex gap-2 sm:mt-0'>
+        <section className='mt-2 flex gap-2 sm:mt-0'>
           <button
             onClick={() => setFilter('all')}
             className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
@@ -153,8 +153,8 @@ export default function EarthquakeMap({
           >
             Dirasakan ({earthquakesFelt?.length || 0})
           </button>
-        </div>
-      </div>
+        </section>
+      </section>
 
       <CardBody className='relative p-0'>
         <MapContainer
@@ -178,14 +178,14 @@ export default function EarthquakeMap({
               icon={createMarkerIcon(newestEarthquake.magnitude, true, false)}
             >
               <Popup>
-                <div className='p-1'>
+                <section className='p-1'>
                   <span className='mb-1 inline-block rounded bg-red-600 px-2 py-0.5 text-[10px] font-bold text-white'>
                     GEMPA TERBARU
                   </span>
                   <h4 className='text-sm font-bold text-gray-900'>
                     {newestEarthquake.wilayah}
                   </h4>
-                  <div className='mt-1 text-xs text-gray-700'>
+                  <section className='mt-1 text-xs text-gray-700'>
                     <p>
                       <strong>Magnitudo:</strong> {newestEarthquake.magnitude}
                     </p>
@@ -199,8 +199,8 @@ export default function EarthquakeMap({
                     <p>
                       <strong>Potensi:</strong> {newestEarthquake.potensi}
                     </p>
-                  </div>
-                </div>
+                  </section>
+                </section>
               </Popup>
             </Marker>
           )}
@@ -220,12 +220,12 @@ export default function EarthquakeMap({
                   icon={createMarkerIcon(eq.magnitude, false, false)}
                 >
                   <Popup>
-                    <div className='p-1'>
+                    <section className='p-1'>
                       <span className='mb-1 inline-block rounded bg-red-500 px-2 py-0.5 text-[10px] font-bold text-white'>
                         M 5.0+
                       </span>
                       <h4 className='text-sm font-bold text-gray-900'>{eq.wilayah}</h4>
-                      <div className='mt-1 text-xs text-gray-700'>
+                      <section className='mt-1 text-xs text-gray-700'>
                         <p>
                           <strong>Magnitudo:</strong> {eq.magnitude}
                         </p>
@@ -240,8 +240,8 @@ export default function EarthquakeMap({
                             <strong>Potensi:</strong> {eq.potensi}
                           </p>
                         )}
-                      </div>
-                    </div>
+                      </section>
+                    </section>
                   </Popup>
                 </Marker>
               );
@@ -262,12 +262,12 @@ export default function EarthquakeMap({
                   icon={createMarkerIcon(eq.magnitude, false, true)}
                 >
                   <Popup>
-                    <div className='p-1'>
+                    <section className='p-1'>
                       <span className='mb-1 inline-block rounded bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white'>
                         DIRASAKAN
                       </span>
                       <h4 className='text-sm font-bold text-gray-900'>{eq.wilayah}</h4>
-                      <div className='mt-1 text-xs text-gray-700'>
+                      <section className='mt-1 text-xs text-gray-700'>
                         <p>
                           <strong>Magnitudo:</strong> {eq.magnitude}
                         </p>
@@ -282,8 +282,8 @@ export default function EarthquakeMap({
                             <strong>Dirasakan (MMI):</strong> {eq.dirasakan}
                           </p>
                         )}
-                      </div>
-                    </div>
+                      </section>
+                    </section>
                   </Popup>
                 </Marker>
               );
@@ -291,21 +291,21 @@ export default function EarthquakeMap({
         </MapContainer>
 
         {/* legend overlay on map */}
-        <div className='absolute bottom-3 right-3 z-[1000] rounded-lg bg-white/95 p-2.5 text-xs shadow-md backdrop-blur-sm'>
+        <section className='absolute bottom-3 right-3 z-[1000] rounded-lg bg-white/95 p-2.5 text-xs shadow-md backdrop-blur-sm'>
           <p className='mb-1 font-bold text-gray-800'>Keterangan Pin:</p>
-          <div className='flex items-center gap-2'>
+          <section className='flex items-center gap-2'>
             <span className='size-3.5 rounded-full bg-red-600 ring-2 ring-red-300'></span>
             <span className='text-gray-700'>Gempa Terbaru</span>
-          </div>
-          <div className='mt-1 flex items-center gap-2'>
+          </section>
+          <section className='mt-1 flex items-center gap-2'>
             <span className='size-3 rounded-full bg-red-500'></span>
             <span className='text-gray-700'>Magnitudo &ge; 5.0</span>
-          </div>
-          <div className='mt-1 flex items-center gap-2'>
+          </section>
+          <section className='mt-1 flex items-center gap-2'>
             <span className='size-3 rounded-full bg-amber-500'></span>
             <span className='text-gray-700'>Gempa Dirasakan</span>
-          </div>
-        </div>
+          </section>
+        </section>
       </CardBody>
     </Card>
   );

@@ -46,31 +46,31 @@ export default function EarthquakePage() {
       <EarthquakeDetail earthquake={newestEarthquake} />
 
       {/* unified interactive map for all earthquakes */}
-      <div ref={mapSectionRef}>
+      <section ref={mapSectionRef}>
         <EarthquakeMap
           newestEarthquake={newestEarthquake}
           earthquakes5Min={earthquake5Min}
           earthquakesFelt={earthquakeFelt}
           selectedCoord={selectedCoord}
         />
-      </div>
+      </section>
 
       {/* earthquake lists */}
       <section className='flex flex-col justify-between gap-6 lg:flex-row'>
-        <div className='flex-1'>
+        <section className='flex-1'>
           <EarthquakeList
             title='15 Gempabumi M 5,0+'
             earthquakes={earthquake5Min}
             onSelectEarthquake={handleSelectEarthquake}
           />
-        </div>
-        <div className='flex-1'>
+        </section>
+        <section className='flex-1'>
           <EarthquakeList
             title='15 Gempabumi Dirasakan'
             earthquakes={earthquakeFelt}
             onSelectEarthquake={handleSelectEarthquake}
           />
-        </div>
+        </section>
       </section>
     </section>
   );

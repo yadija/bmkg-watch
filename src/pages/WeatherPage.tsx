@@ -45,17 +45,17 @@ export default function WeatherPage() {
     <section className='min-h-[calc(100vh-160px)] py-4'>
       <Card className='mb-5 shadow-sm'>
         <CardBody className='flex flex-col justify-between gap-4 md:flex-row md:items-center'>
-          <div>
+          <section>
             <Typography variant='h1' className='text-2xl font-bold text-blue-gray-900'>
               Prakiraan Cuaca Indonesia
             </Typography>
             <Typography variant='small' className='text-gray-600'>
               Sumber: Open Data Resmi BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)
             </Typography>
-          </div>
+          </section>
 
           {locationInfo && (
-            <div className='rounded-lg bg-blue-50 p-3 text-right text-xs text-blue-gray-800'>
+            <section className='rounded-lg bg-blue-50 p-3 text-right text-xs text-blue-gray-800'>
               <p className='font-bold text-blue-800'>
                 {locationInfo.kotkab}, {locationInfo.provinsi}
               </p>
@@ -63,14 +63,14 @@ export default function WeatherPage() {
                 Kec. {locationInfo.kecamatan} &bull; Koordinat: {locationInfo.lat},{' '}
                 {locationInfo.lon}
               </p>
-            </div>
+            </section>
           )}
         </CardBody>
       </Card>
 
       <Card className='mb-5 shadow-sm'>
         <CardBody className='flex flex-col gap-4 sm:flex-row'>
-          <div className='flex-1'>
+          <section className='flex-1'>
             <Select
               variant='outlined'
               label='-- Pilih Provinsi --'
@@ -85,9 +85,9 @@ export default function WeatherPage() {
                 </Option>
               ))}
             </Select>
-          </div>
+          </section>
 
-          <div className='flex-1'>
+          <section className='flex-1'>
             <Select
               variant='outlined'
               label='-- Pilih Kabupaten / Kota --'
@@ -103,28 +103,28 @@ export default function WeatherPage() {
                 </Option>
               ))}
             </Select>
-          </div>
+          </section>
         </CardBody>
       </Card>
 
       {loading ? (
         <Card className='mt-5 w-full animate-pulse shadow-sm'>
           <CardBody>
-            <div className='mb-4 h-6 w-60 rounded bg-gray-300'></div>
-            <div className='h-64 w-full rounded bg-gray-200'></div>
+            <section className='mb-4 h-6 w-60 rounded bg-gray-300'></section>
+            <section className='h-64 w-full rounded bg-gray-200'></section>
           </CardBody>
         </Card>
       ) : weather ? (
         <Card className='mt-5 shadow-sm'>
           <CardBody>
-            <div className='flex flex-wrap items-baseline justify-between border-b pb-3'>
+            <section className='flex flex-wrap items-baseline justify-between border-b pb-3'>
               <Typography variant='h2' className='text-xl font-bold text-blue-gray-900'>
                 {locationInfo?.kotkab || 'Lokasi Terpilih'}
               </Typography>
               <span className='text-sm text-gray-500'>
                 Prakiraan 3 Hari ke Depan (Interval per 3 Jam)
               </span>
-            </div>
+            </section>
 
             <WeatherContent weatherData={weather} />
           </CardBody>

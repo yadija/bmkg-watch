@@ -9,7 +9,7 @@ export default function EarthquakeDetailSkeleton() {
       <CardBody className='flex flex-col lg:flex-row'>
         <section className='flex flex-[1] flex-col justify-evenly px-4 lg:px-10'>
           <Typography
-            as='div'
+            as='section'
             variant='h2'
             className='mb-4 h-6 w-96 rounded-full bg-gray-300'
           >
@@ -19,7 +19,7 @@ export default function EarthquakeDetailSkeleton() {
           {[...Array(8)].map((_, index) => (
             <Typography
               key={index}
-              as='div'
+              as='section'
               variant='paragraph'
               className='mb-4 h-3 w-56 rounded-full bg-gray-300'
             >

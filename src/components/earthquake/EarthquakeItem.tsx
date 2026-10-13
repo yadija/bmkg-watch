@@ -24,8 +24,8 @@ export default function EarthquakeItem({ earthquake, onSelect }: EarthquakeItemP
   return (
     <Card className='w-full border border-gray-100 shadow-sm transition-all hover:border-blue-200 hover:shadow-md'>
       <CardBody className='flex flex-col justify-between gap-4 p-5 sm:flex-row sm:items-center'>
-        <div className='flex-1'>
-          <div className='mb-2 flex items-center gap-3'>
+        <section className='flex-1'>
+          <section className='mb-2 flex items-center gap-3'>
             <span
               className={`rounded-full px-2.5 py-1 text-xs font-bold text-white shadow-sm ${
                 isHighMagnitude ? 'bg-red-600' : 'bg-amber-600'
@@ -36,9 +36,9 @@ export default function EarthquakeItem({ earthquake, onSelect }: EarthquakeItemP
             <Typography variant='h3' className='text-base font-bold text-blue-gray-900'>
               {earthquake.wilayah}
             </Typography>
-          </div>
+          </section>
 
-          <div className='grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-600 sm:grid-cols-4'>
+          <section className='grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-600 sm:grid-cols-4'>
             <p>
               <span className='font-semibold text-gray-800'>Waktu:</span>{' '}
               {earthquake.tanggal} {earthquake.jam}
@@ -63,8 +63,8 @@ export default function EarthquakeItem({ earthquake, onSelect }: EarthquakeItemP
                 <span className='text-amber-800'>{earthquake.dirasakan}</span>
               </p>
             )}
-          </div>
-        </div>
+          </section>
+        </section>
 
         {hasValidCoord && onSelect && (
           <button

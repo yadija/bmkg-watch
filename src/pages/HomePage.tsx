@@ -100,7 +100,7 @@ export default function HomePage() {
             </Link>
           </section>
 
-          <div className='mb-4 max-w-sm'>
+          <section className='mb-4 max-w-sm'>
             <Select
               variant='outlined'
               label='-- Pilih Kota Populer --'
@@ -115,19 +115,19 @@ export default function HomePage() {
                 </Option>
               ))}
             </Select>
-          </div>
+          </section>
 
           {loadingWeather ? (
             <Card className='w-full animate-pulse shadow-sm'>
               <CardBody>
-                <div className='mb-3 h-6 w-60 rounded bg-gray-300'></div>
-                <div className='h-72 w-full rounded bg-gray-200'></div>
+                <section className='mb-3 h-6 w-60 rounded bg-gray-300'></section>
+                <section className='h-72 w-full rounded bg-gray-200'></section>
               </CardBody>
             </Card>
           ) : weather ? (
             <Card className='shadow-sm'>
               <CardBody>
-                <div className='flex items-baseline justify-between'>
+                <section className='flex items-baseline justify-between'>
                   <Typography variant='h2' className='text-xl font-semibold'>
                     {weather.lokasi.kotkab},{' '}
                     <span className='text-sm font-normal text-gray-600'>
@@ -137,7 +137,7 @@ export default function HomePage() {
                   <span className='text-xs text-gray-500'>
                     Zona: {weather.lokasi.timezone}
                   </span>
-                </div>
+                </section>
 
                 <WeatherContent weatherData={weather} maxDays={1} />
               </CardBody>
@@ -172,7 +172,7 @@ export default function HomePage() {
                     title={newestEarthquake.wilayah}
                   />
                 </button>
-                <div className='mt-3 text-xs text-gray-600'>
+                <section className='mt-3 text-xs text-gray-600'>
                   <p className='font-semibold text-gray-800'>
                     {newestEarthquake.wilayah}
                   </p>
@@ -186,7 +186,7 @@ export default function HomePage() {
                   <p>
                     {newestEarthquake.tanggal} {newestEarthquake.jam}
                   </p>
-                </div>
+                </section>
               </CardBody>
             </Card>
           ) : (

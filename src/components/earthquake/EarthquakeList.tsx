@@ -22,14 +22,14 @@ export default function EarthquakeList({
 
   return (
     <section className='my-4 w-full'>
-      <div className='mb-3 flex items-center justify-between border-b pb-2'>
+      <section className='mb-3 flex items-center justify-between border-b pb-2'>
         <Typography variant='h2' className='text-lg font-bold text-blue-gray-900'>
           {title}
         </Typography>
         <span className='rounded bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-700'>
           {earthquakes.length} Gempa
         </span>
-      </div>
+      </section>
 
       <section className='flex w-full flex-col gap-3'>
         {earthquakes.map((earthquake, index) => (
