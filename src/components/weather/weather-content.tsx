@@ -2,7 +2,6 @@
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import { Typography } from '@material-tailwind/react';
 import { LuCompass, LuDroplets, LuWind } from 'react-icons/lu';
 // import required modules
 import { Navigation } from 'swiper/modules';
@@ -38,12 +37,9 @@ export default function WeatherContent({
 
   if (displayedDays.length === 0) {
     return (
-      <Typography
-        variant='paragraph'
-        className='p-6 text-center text-sm font-medium text-gray-700'
-      >
+      <p className='p-6 text-center text-sm font-medium text-gray-700 dark:text-zinc-300'>
         Data cuaca tidak tersedia untuk wilayah ini.
-      </Typography>
+      </p>
     );
   }
 
@@ -111,12 +107,9 @@ export default function WeatherContent({
                             day={isDay}
                             alt={entry.weather_desc}
                           />
-                          <Typography
-                            variant='h3'
-                            className='mt-2 text-center text-lg font-bold capitalize text-gray-900 dark:text-zinc-100'
-                          >
+                          <h3 className='mt-2 text-center text-lg font-bold capitalize text-gray-900 dark:text-zinc-100'>
                             {entry.weather_desc}
-                          </Typography>
+                          </h3>
                         </section>
 
                         <section className='flex items-center justify-center'>

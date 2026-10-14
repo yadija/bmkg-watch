@@ -1,5 +1,3 @@
-import { Typography } from '@material-tailwind/react';
-
 import { EarthquakeData } from '@/types';
 
 import EarthquakeItem from './earthquake-item';
@@ -23,12 +21,7 @@ export default function EarthquakeList({
   return (
     <section className='my-4 w-full'>
       <section className='mb-3 flex items-center justify-between border-b border-gray-200 pb-2 dark:border-zinc-800'>
-        <Typography
-          variant='h2'
-          className='text-base font-bold text-gray-900 dark:text-zinc-100'
-        >
-          {title}
-        </Typography>
+        <h2 className='text-base font-bold text-gray-900 dark:text-zinc-100'>{title}</h2>
         <span className='rounded-none border border-gray-300 bg-white px-2.5 py-0.5 text-xs font-bold text-gray-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200'>
           {earthquakes.length} Gempa
         </span>

@@ -1,4 +1,3 @@
-import { Collapse, IconButton, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 import { LuMonitor, LuMoon, LuSun } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
@@ -65,7 +64,7 @@ export default function Navbar() {
 
   const navList = (
     <ul className='mb-4 mt-2 flex flex-col gap-2 lg:my-0 lg:flex-row lg:items-center lg:gap-6'>
-      <Typography as='li' variant='small' className='p-1 font-normal'>
+      <li className='p-1 text-sm font-normal'>
         <Link
           to='/weather'
           onClick={() => setOpenNav(false)}
@@ -73,8 +72,8 @@ export default function Navbar() {
         >
           Cuaca
         </Link>
-      </Typography>
-      <Typography as='li' variant='small' className='p-1 font-normal'>
+      </li>
+      <li className='p-1 text-sm font-normal'>
         <Link
           to='/earthquake'
           onClick={() => setOpenNav(false)}
@@ -82,7 +81,7 @@ export default function Navbar() {
         >
           Gempa
         </Link>
-      </Typography>
+      </li>
     </ul>
   );
 
@@ -103,10 +102,11 @@ export default function Navbar() {
           <section className='hidden lg:block'>
             <ThemeSwitcher />
           </section>
-          <IconButton
-            variant='text'
-            className='ml-auto size-6 text-gray-800 hover:bg-transparent focus:bg-transparent active:bg-transparent dark:text-zinc-200 lg:hidden'
-            ripple={false}
+          <button
+            type='button'
+            aria-label={openNav ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
+            aria-expanded={openNav}
+            className='ml-auto inline-flex size-8 items-center justify-center text-gray-800 hover:text-gray-900 focus:outline-none dark:text-zinc-200 dark:hover:text-white lg:hidden'
             onClick={() => setOpenNav(!openNav)}
           >
             {openNav ? (
@@ -129,6 +129,7 @@ export default function Navbar() {
                 xmlns='http://www.w3.org/2000/svg'
                 className='size-6'
                 fill='none'
+                viewBox='0 0 24 24'
                 stroke='currentColor'
                 strokeWidth={2}
               >
@@ -139,11 +140,11 @@ export default function Navbar() {
                 />
               </svg>
             )}
-          </IconButton>
+          </button>
         </section>
       </section>
-      <Collapse open={openNav}>
-        <div className='border-t border-gray-200 pt-3 dark:border-zinc-800'>
+      {openNav && (
+        <div className='border-t border-gray-200 pt-3 dark:border-zinc-800 lg:hidden'>
           {navList}
           <div className='mt-3 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-zinc-800'>
             <span className='text-xs font-bold text-gray-600 dark:text-zinc-400'>
@@ -152,7 +153,7 @@ export default function Navbar() {
             <ThemeSwitcher />
           </div>
         </div>
-      </Collapse>
+      )}
     </header>
   );
 }

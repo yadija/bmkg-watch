@@ -1,4 +1,3 @@
-import { Typography } from '@material-tailwind/react';
 import { LuMapPin } from 'react-icons/lu';
 
 import { EarthquakeData } from '@/types';
@@ -39,12 +38,9 @@ export default function EarthquakeItem({ earthquake, onSelect }: EarthquakeItemP
             >
               M {earthquake.magnitude}
             </span>
-            <Typography
-              variant='h3'
-              className='text-sm font-bold text-gray-900 dark:text-zinc-100'
-            >
+            <h3 className='text-sm font-bold text-gray-900 dark:text-zinc-100'>
               {earthquake.wilayah}
-            </Typography>
+            </h3>
           </section>
 
           <section className='grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-gray-700 dark:text-zinc-300 sm:grid-cols-4'>

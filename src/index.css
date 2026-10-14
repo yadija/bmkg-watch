@@ -99,11 +99,8 @@
 }
 
 /* flat dialog & modal containers */
-div[role='dialog'],
-div[data-floating-ui-portal] > div > div > div,
-div[class*='backdrop-blur'] > div {
+div[role='dialog'] {
   border-radius: 0 !important;
-  box-shadow: none !important;
 }
 
 /* ==========================================================================
@@ -160,8 +157,7 @@ div[class*='backdrop-blur'] > div {
 }
 
 /* dark dialog containers */
-.dark div[role='dialog'],
-.dark div[data-floating-ui-portal] > div > div > div {
+.dark div[role='dialog'] {
   background-color: #18181b !important;
   border-color: #3f3f46 !important;
   color: #f4f4f5 !important;

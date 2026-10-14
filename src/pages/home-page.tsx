@@ -1,4 +1,3 @@
-import { Typography } from '@material-tailwind/react';
 import { useEffect, useRef, useState } from 'react';
 import {
   LuActivity,
@@ -86,19 +85,13 @@ export default function HomePage() {
               Resmi BMKG
             </span>
             <section>
-              <Typography
-                variant='paragraph'
-                className='text-sm font-bold text-gray-900 dark:text-zinc-100'
-              >
+              <p className='text-sm font-bold text-gray-900 dark:text-zinc-100'>
                 Portal Pemantau Data Meteorologi & Seismik Indonesia
-              </Typography>
-              <Typography
-                variant='paragraph'
-                className='mt-0.5 text-xs text-gray-700 dark:text-zinc-300'
-              >
+              </p>
+              <p className='mt-0.5 text-xs text-gray-700 dark:text-zinc-300'>
                 Informasi resmi disinkronkan secara langsung dari sistem BMKG (Badan
                 Meteorologi, Klimatologi, dan Geofisika).
-              </Typography>
+              </p>
             </section>
           </section>
 
@@ -121,12 +114,9 @@ export default function HomePage() {
           {/* section heading bar with consistent height and font size */}
           <section className='flex flex-col gap-2 border-b border-gray-300 pb-3 dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between'>
             <section>
-              <Typography
-                variant='h1'
-                className='text-lg font-bold tracking-tight text-gray-900 dark:text-zinc-100'
-              >
+              <h1 className='text-lg font-bold tracking-tight text-gray-900 dark:text-zinc-100'>
                 Prakiraan Cuaca Hari Ini
-              </Typography>
+              </h1>
               <p className='mt-0.5 text-xs text-gray-700 dark:text-zinc-400'>
                 Perkiraan kondisi cuaca, suhu, kelembaban, dan angin per interval waktu
               </p>
@@ -198,15 +188,12 @@ export default function HomePage() {
               {/* location and timezone bar */}
               <section className='flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-200 bg-gray-50/70 p-4 dark:border-zinc-800 dark:bg-zinc-900/80'>
                 <section>
-                  <Typography
-                    variant='h2'
-                    className='text-base font-bold text-gray-900 dark:text-zinc-100'
-                  >
+                  <h2 className='text-base font-bold text-gray-900 dark:text-zinc-100'>
                     {weather.lokasi.kotkab},{' '}
                     <span className='font-normal text-gray-700 dark:text-zinc-400'>
                       {weather.lokasi.provinsi}
                     </span>
-                  </Typography>
+                  </h2>
                   <p className='mt-0.5 text-xs text-gray-700 dark:text-zinc-400'>
                     Kecamatan: {weather.lokasi.kecamatan || '-'} &bull; Koordinat:{' '}
                     {weather.lokasi.lat}, {weather.lokasi.lon}
@@ -224,10 +211,10 @@ export default function HomePage() {
             </section>
           ) : (
             <section className='rounded-none border border-red-300 bg-red-50 p-6 text-red-900 shadow-none dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300'>
-              <Typography variant='paragraph' className='font-bold'>
+              <p className='font-bold'>
                 Gagal memuat data cuaca untuk wilayah ini. Silakan pilih wilayah lain atau
                 muat ulang halaman.
-              </Typography>
+              </p>
             </section>
           )}
         </section>
@@ -238,12 +225,9 @@ export default function HomePage() {
             <section className='sticky top-4 rounded-none border border-gray-300 bg-white shadow-none dark:border-zinc-800 dark:bg-zinc-900'>
               {/* card header */}
               <section className='flex items-center justify-between border-b border-gray-200 bg-gray-50/70 p-4 dark:border-zinc-800 dark:bg-zinc-900/80'>
-                <Typography
-                  variant='h2'
-                  className='text-base font-bold text-gray-900 dark:text-zinc-100'
-                >
+                <h2 className='text-base font-bold text-gray-900 dark:text-zinc-100'>
                   Info Gempa Terbaru
-                </Typography>
+                </h2>
                 <span className='border border-red-600 bg-red-600 px-2.5 py-1 text-xs font-bold tracking-wider text-white'>
                   M {newestEarthquake.magnitude}
                 </span>

@@ -1,4 +1,3 @@
-import { Typography } from '@material-tailwind/react';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
@@ -103,12 +102,9 @@ export default function EarthquakeMap({
     <section className='my-6 rounded-none border border-gray-300 bg-white shadow-none dark:border-zinc-800 dark:bg-zinc-900'>
       <section className='flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 bg-gray-50/70 p-4 dark:border-zinc-800 dark:bg-zinc-900/80'>
         <section>
-          <Typography
-            variant='h2'
-            className='text-base font-bold text-gray-900 dark:text-zinc-100'
-          >
+          <h2 className='text-base font-bold text-gray-900 dark:text-zinc-100'>
             Peta Sebaran Gempa Bumi Indonesia
-          </Typography>
+          </h2>
           <p className='mt-0.5 text-xs text-gray-700 dark:text-zinc-400'>
             Satu peta terpadu untuk memantau semua titik episentrum gempa BMKG
           </p>

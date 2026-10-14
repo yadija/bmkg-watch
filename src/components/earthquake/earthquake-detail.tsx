@@ -1,4 +1,3 @@
-import { Typography } from '@material-tailwind/react';
 import {
   LuActivity,
   LuAlertTriangle,
@@ -32,12 +31,9 @@ export default function EarthquakeDetail({ earthquake }: EarthquakeDetailProps) 
             <span className='inline-flex shrink-0 items-center border border-red-600 bg-red-600 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white'>
               Gempa Terkini
             </span>
-            <Typography
-              variant='h1'
-              className='text-base font-bold text-gray-900 dark:text-zinc-100'
-            >
+            <h1 className='text-base font-bold text-gray-900 dark:text-zinc-100'>
               Info Gempa Bumi Terbaru Indonesia
-            </Typography>
+            </h1>
           </section>
           <span className='border border-red-600 bg-red-600 px-3 py-1 text-sm font-bold tracking-wider text-white'>
             M {earthquake.magnitude}

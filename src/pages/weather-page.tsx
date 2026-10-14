@@ -1,4 +1,3 @@
-import { Typography } from '@material-tailwind/react';
 import { useEffect, useRef, useState } from 'react';
 
 import WeatherContent from '@/components/weather/weather-content';
@@ -68,19 +67,13 @@ export default function WeatherPage() {
               Prakiraan Cuaca
             </span>
             <section>
-              <Typography
-                variant='h1'
-                className='text-base font-bold text-gray-900 dark:text-zinc-100'
-              >
+              <h1 className='text-base font-bold text-gray-900 dark:text-zinc-100'>
                 Prakiraan Cuaca Seluruh Wilayah Indonesia
-              </Typography>
-              <Typography
-                variant='paragraph'
-                className='mt-0.5 text-xs text-gray-700 dark:text-zinc-300'
-              >
+              </h1>
+              <p className='mt-0.5 text-xs text-gray-700 dark:text-zinc-300'>
                 Data resmi dari sistem Open Data BMKG (Badan Meteorologi, Klimatologi, dan
                 Geofisika).
-              </Typography>
+              </p>
             </section>
           </section>
 
@@ -167,15 +160,12 @@ export default function WeatherPage() {
         <section className='rounded-none border border-gray-300 bg-white shadow-none dark:border-zinc-800 dark:bg-zinc-900'>
           <section className='flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-200 bg-gray-50/70 p-4 dark:border-zinc-800 dark:bg-zinc-900/80'>
             <section>
-              <Typography
-                variant='h2'
-                className='text-base font-bold text-gray-900 dark:text-zinc-100'
-              >
+              <h2 className='text-base font-bold text-gray-900 dark:text-zinc-100'>
                 {locationInfo?.kotkab || 'Lokasi Terpilih'},{' '}
                 <span className='font-normal text-gray-700 dark:text-zinc-400'>
                   {locationInfo?.provinsi}
                 </span>
-              </Typography>
+              </h2>
               <p className='mt-0.5 text-xs text-gray-700 dark:text-zinc-400'>
                 Prakiraan 3 Hari ke Depan &bull; Interval per 3 Jam
               </p>
@@ -191,10 +181,10 @@ export default function WeatherPage() {
         </section>
       ) : (
         <section className='rounded-none border border-red-300 bg-red-50 p-6 text-red-900 shadow-none dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300'>
-          <Typography variant='paragraph' className='text-sm font-bold'>
+          <p className='text-sm font-bold'>
             Gagal memuat data cuaca untuk wilayah ini. Silakan periksa koneksi internet
             atau pilih wilayah lain.
-          </Typography>
+          </p>
         </section>
       )}
     </section>

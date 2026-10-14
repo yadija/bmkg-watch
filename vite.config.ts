@@ -17,7 +17,7 @@ export default defineConfig({
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           'vendor-leaflet': ['leaflet', 'react-leaflet'],
           'vendor-swiper': ['swiper'],
-          'vendor-ui': ['@material-tailwind/react', 'react-icons'],
+          'vendor-icons': ['react-icons'],
         },
       },
     },

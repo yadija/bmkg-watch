@@ -1,5 +1,3 @@
-import { Typography } from '@material-tailwind/react';
-
 interface EarthquakeListSkeletonProps {
   title: string;
 }
@@ -8,12 +6,7 @@ export default function EarthquakeListSkeleton({ title }: EarthquakeListSkeleton
   return (
     <section className='my-4 w-full animate-pulse'>
       <section className='mb-3 flex items-center justify-between border-b border-gray-200 pb-2 dark:border-zinc-800'>
-        <Typography
-          variant='h2'
-          className='text-base font-bold text-gray-400 dark:text-zinc-600'
-        >
-          {title}
-        </Typography>
+        <h2 className='text-base font-bold text-gray-400 dark:text-zinc-600'>{title}</h2>
         <section className='h-5 w-16 bg-gray-200 dark:bg-zinc-800'></section>
       </section>
 
