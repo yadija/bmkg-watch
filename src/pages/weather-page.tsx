@@ -5,6 +5,7 @@ import WeatherContent from '@/components/weather/weather-content';
 import { DEFAULT_ADM4, DEFAULT_PROVINCE_KEY, REGIONS } from '@/constants';
 import { fetchWeather } from '@/services';
 import { BmkgWeatherResponse } from '@/types';
+import { getTimezoneAbbr } from '@/utils';
 
 export default function WeatherPage() {
   const [provinceKey, setProvinceKey] = useState<string>(DEFAULT_PROVINCE_KEY);
@@ -157,7 +158,7 @@ export default function WeatherPage() {
               </p>
             </section>
             <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900'>
-              Zona: {weather.lokasi.timezone}
+              Zona: {getTimezoneAbbr(weather.lokasi.timezone)} ({weather.lokasi.timezone})
             </span>
           </section>
 

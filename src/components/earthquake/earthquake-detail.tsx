@@ -94,7 +94,7 @@ export default function EarthquakeDetail({ earthquake }: EarthquakeDetailProps) 
                   <span>Waktu Gempa</span>
                 </section>
                 <p className='text-xs font-bold text-gray-900'>
-                  {earthquake.tanggal} &bull; {earthquake.jam} WIB
+                  {earthquake.tanggal} &bull; {earthquake.jam}
                 </p>
               </section>
             </section>

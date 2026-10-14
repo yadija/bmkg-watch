@@ -101,3 +101,37 @@ export const formatDailyWeatherData = (
 
   return result;
 };
+
+/**
+ * converts iana timezone string to standard indonesian timezone abbreviation
+ * - "asia/jakarta" -> "WIB"
+ * - "asia/makassar" -> "WITA"
+ * - "asia/jayapura" -> "WIT"
+ */
+export const getTimezoneAbbr = (timezone?: string): string => {
+  if (!timezone) return 'WIB';
+  const tz = timezone.toLowerCase();
+  if (tz.includes('makassar') || tz.includes('wita')) {
+    return 'WITA';
+  }
+  if (tz.includes('jayapura') || tz.includes('wit')) {
+    return 'WIT';
+  }
+  if (tz.includes('jakarta') || tz.includes('wib')) {
+    return 'WIB';
+  }
+  return 'WIB';
+};
+
+/**
+ * formats earthquake time string ensuring proper timezone suffix without duplication
+ * example: "17:22:02 WIB" -> "17:22:02 WIB"
+ */
+export const formatEarthquakeTime = (jamStr: string): string => {
+  if (!jamStr) return '';
+  // return as is if timezone abbreviation already exists
+  if (/WI[BT|A]?/i.test(jamStr)) {
+    return jamStr;
+  }
+  return `${jamStr} WIB`;
+};

@@ -15,6 +15,7 @@ import WeatherContent from '@/components/weather/weather-content';
 import { DEFAULT_ADM4 } from '@/constants';
 import { fetchNewestEarthquake, fetchWeather } from '@/services';
 import { BmkgWeatherResponse, NewestEarthquake } from '@/types';
+import { formatEarthquakeTime, getTimezoneAbbr } from '@/utils';
 
 const POPULAR_CITIES = [
   { name: 'Jakarta Pusat (DKI Jakarta)', adm4: '31.71.03.1001' },
@@ -192,7 +193,8 @@ export default function HomePage() {
                   </p>
                 </section>
                 <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900'>
-                  Zona: {weather.lokasi.timezone}
+                  Zona: {getTimezoneAbbr(weather.lokasi.timezone)} (
+                  {weather.lokasi.timezone})
                 </span>
               </section>
 
@@ -280,7 +282,8 @@ export default function HomePage() {
                       <span>Waktu Terjadinya</span>
                     </section>
                     <p className='mt-1 text-xs font-bold text-gray-900'>
-                      {newestEarthquake.tanggal} &bull; {newestEarthquake.jam} WIB
+                      {newestEarthquake.tanggal} &bull;{' '}
+                      {formatEarthquakeTime(newestEarthquake.jam)}
                     </p>
                   </section>
 

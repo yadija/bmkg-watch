@@ -13,6 +13,7 @@ import { BmkgWeatherResponse } from '@/types';
 import {
   formatDailyWeatherData,
   formatTimeOnly,
+  getTimezoneAbbr,
   getWindDirectionName,
   isDaytime,
 } from '@/utils';
@@ -33,6 +34,7 @@ export default function WeatherContent({
 }: WeatherContentProps) {
   const dailyWeather = formatDailyWeatherData(weatherData);
   const displayedDays = maxDays ? dailyWeather.slice(0, maxDays) : dailyWeather;
+  const tzAbbr = getTimezoneAbbr(weatherData?.lokasi?.timezone);
 
   if (displayedDays.length === 0) {
     return (
@@ -84,7 +86,7 @@ export default function WeatherContent({
                       {/* header bar: time badge and day/night status */}
                       <section className='flex items-center justify-between border-b border-gray-200 pb-3'>
                         <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900'>
-                          Pukul {time} WIB
+                          Pukul {time} {tzAbbr}
                         </span>
                         <span
                           className={`border px-2.5 py-0.5 text-xs font-bold ${

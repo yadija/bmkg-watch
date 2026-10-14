@@ -194,7 +194,7 @@ export default function EarthquakeMap({
                     </p>
                     <p>
                       <span className='font-bold text-gray-900'>Waktu:</span>{' '}
-                      {newestEarthquake.tanggal} &bull; {newestEarthquake.jam} WIB
+                      {newestEarthquake.tanggal} &bull; {newestEarthquake.jam}
                     </p>
                     {newestEarthquake.potensi && (
                       <p>
@@ -242,7 +242,7 @@ export default function EarthquakeMap({
                         </p>
                         <p>
                           <span className='font-bold text-gray-900'>Waktu:</span>{' '}
-                          {eq.tanggal} &bull; {eq.jam} WIB
+                          {eq.tanggal} &bull; {eq.jam}
                         </p>
                         {eq.potensi && (
                           <p>
@@ -291,7 +291,7 @@ export default function EarthquakeMap({
                         </p>
                         <p>
                           <span className='font-bold text-gray-900'>Waktu:</span>{' '}
-                          {eq.tanggal} &bull; {eq.jam} WIB
+                          {eq.tanggal} &bull; {eq.jam}
                         </p>
                         {eq.dirasakan && (
                           <p>
