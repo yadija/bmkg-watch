@@ -56,8 +56,8 @@ export default function WeatherContent({
 
         return (
           <section className='mt-4 flex flex-col gap-3' key={day.dateKey}>
-            <section className='border-b border-gray-200 pb-2'>
-              <p className='text-sm font-bold uppercase tracking-wider text-gray-800'>
+            <section className='border-b border-gray-200 pb-2 dark:border-zinc-800'>
+              <p className='text-sm font-bold uppercase tracking-wider text-gray-800 dark:text-zinc-200'>
                 {day.dateLabel}
               </p>
             </section>
@@ -67,16 +67,16 @@ export default function WeatherContent({
               navigation
               spaceBetween={12}
               slidesPerView={1}
-              className='w-full border border-gray-300 bg-white'
+              className='w-full border border-gray-300 bg-white dark:border-zinc-800 dark:bg-zinc-900'
             >
               {entries.map((entry, index) => {
                 const time = formatTimeOnly(entry.local_datetime || entry.datetime);
                 const isDay = isDaytime(entry.local_datetime || entry.datetime);
 
-                // light-toned surfaces for both day and night ensuring 100% visibility
+                // surfaces for both day and night ensuring 100% visibility
                 const cardBg = isDay
-                  ? 'bg-white text-gray-900'
-                  : 'bg-gray-50 text-gray-900';
+                  ? 'bg-white text-gray-900 dark:bg-zinc-900 dark:text-zinc-100'
+                  : 'bg-gray-50 text-gray-900 dark:bg-zinc-900/60 dark:text-zinc-100';
 
                 return (
                   <SwiperSlide key={`${entry.datetime}-${index}`}>
@@ -84,15 +84,15 @@ export default function WeatherContent({
                       className={`relative flex cursor-default flex-col gap-4 p-5 transition-colors ${cardBg}`}
                     >
                       {/* header bar: time badge and day/night status */}
-                      <section className='flex items-center justify-between border-b border-gray-200 pb-3'>
-                        <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900'>
+                      <section className='flex items-center justify-between border-b border-gray-200 pb-3 dark:border-zinc-800'>
+                        <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100'>
                           Pukul {time} {tzAbbr}
                         </span>
                         <span
                           className={`border px-2.5 py-0.5 text-xs font-bold ${
                             isDay
-                              ? 'border-amber-300 bg-amber-50 text-amber-900'
-                              : 'border-indigo-300 bg-indigo-50 text-indigo-900'
+                              ? 'border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-700/60 dark:bg-amber-950/40 dark:text-amber-300'
+                              : 'border-indigo-300 bg-indigo-50 text-indigo-900 dark:border-indigo-700/60 dark:bg-indigo-950/40 dark:text-indigo-300'
                           }`}
                         >
                           {isDay ? 'Siang Hari' : 'Malam Hari'}
@@ -113,7 +113,7 @@ export default function WeatherContent({
                           />
                           <Typography
                             variant='h3'
-                            className='mt-2 text-center text-lg font-bold capitalize text-gray-900'
+                            className='mt-2 text-center text-lg font-bold capitalize text-gray-900 dark:text-zinc-100'
                           >
                             {entry.weather_desc}
                           </Typography>
@@ -121,11 +121,11 @@ export default function WeatherContent({
 
                         <section className='flex items-center justify-center'>
                           <p
-                            className='text-5xl font-bold tracking-tight text-gray-900'
+                            className='text-5xl font-bold tracking-tight text-gray-900 dark:text-zinc-100'
                             title='Suhu Udara'
                           >
                             {entry.t}
-                            <span className='text-3xl font-semibold text-blue-600'>
+                            <span className='text-3xl font-semibold text-blue-600 dark:text-blue-400'>
                               °C
                             </span>
                           </p>
@@ -133,7 +133,7 @@ export default function WeatherContent({
                       </section>
 
                       {/* parameters section: 3 equal height cards with lucide flat icons */}
-                      <section className='grid grid-cols-3 gap-2 border border-gray-200 bg-gray-50/70 p-2'>
+                      <section className='grid grid-cols-3 gap-2 border border-gray-200 bg-gray-50/70 p-2 dark:border-zinc-800 dark:bg-zinc-900/70'>
                         <WeatherParameter
                           title='Kelembaban'
                           icon={LuDroplets}

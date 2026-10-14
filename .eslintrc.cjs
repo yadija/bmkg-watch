@@ -38,6 +38,7 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'prettier/prettier': ['error', { usePrettierrc: true }],
+    'tailwindcss/classnames-order': 'off', // handled exclusively by prettier-plugin-tailwindcss
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/accessible-emoji': 'off',
     'react/prop-types': 'off',

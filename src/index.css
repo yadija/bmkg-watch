@@ -105,3 +105,73 @@ div[class*='backdrop-blur'] > div {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
+
+/* ==========================================================================
+   DARK MODE OVERRIDES
+   ========================================================================== */
+
+/* dark swiper navigation buttons */
+.dark .swiper-button-next,
+.dark .swiper-button-prev {
+  color: #f4f4f5 !important;
+  background-color: #18181b !important;
+  border-color: #3f3f46 !important;
+}
+
+.dark .swiper-button-next:hover,
+.dark .swiper-button-prev:hover {
+  background-color: #27272a !important;
+  border-color: #71717a !important;
+}
+
+/* dark leaflet popup */
+.dark .leaflet-popup-content-wrapper {
+  background-color: #18181b !important;
+  color: #f4f4f5 !important;
+  border: 1px solid #3f3f46 !important;
+}
+
+.dark .leaflet-container a.leaflet-popup-close-button {
+  color: #a1a1aa !important;
+  border: 1px solid #3f3f46 !important;
+  background-color: #27272a !important;
+}
+
+.dark .leaflet-container a.leaflet-popup-close-button:hover {
+  color: #ffffff !important;
+  border-color: #71717a !important;
+  background-color: #3f3f46 !important;
+}
+
+/* dark leaflet zoom controls */
+.dark .leaflet-bar {
+  border: 1px solid #3f3f46 !important;
+}
+
+.dark .leaflet-bar a {
+  color: #f4f4f5 !important;
+  background-color: #18181b !important;
+  border-bottom: 1px solid #27272a !important;
+}
+
+.dark .leaflet-bar a:hover {
+  background-color: #27272a !important;
+  color: #ffffff !important;
+}
+
+/* dark dialog containers */
+.dark div[role='dialog'],
+.dark div[data-floating-ui-portal] > div > div > div {
+  background-color: #18181b !important;
+  border-color: #3f3f46 !important;
+  color: #f4f4f5 !important;
+}
+
+/* dark leaflet map canvas & tile inverter (converts standard osm into dark map) */
+.dark .leaflet-container {
+  background-color: #18181b !important;
+}
+
+.dark .leaflet-tile-pane {
+  filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(90%);
+}

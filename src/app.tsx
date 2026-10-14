@@ -18,9 +18,9 @@ function PageFallback() {
 
 export default function App() {
   return (
-    <>
+    <div className='flex min-h-screen flex-col bg-gray-100 text-gray-900 transition-colors duration-200 dark:bg-zinc-950 dark:text-zinc-100'>
       <Navbar />
-      <main className='container mx-auto p-4'>
+      <main className='container mx-auto flex-1 p-4'>
         <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route path='/' element={<HomePage />} />
@@ -30,6 +30,6 @@ export default function App() {
         </Suspense>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

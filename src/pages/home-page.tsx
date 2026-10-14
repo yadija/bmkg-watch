@@ -1,4 +1,4 @@
-import { Card, CardBody, Dialog, Typography } from '@material-tailwind/react';
+import { Dialog, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 import {
   LuActivity,
@@ -66,17 +66,23 @@ export default function HomePage() {
   return (
     <>
       {/* official bmkg notice banner - uniform border, flat accent tag */}
-      <header className='mb-6 border border-gray-300 bg-white p-4 shadow-none'>
+      <header className='mb-6 border border-gray-300 bg-white p-4 shadow-none dark:border-zinc-800 dark:bg-zinc-900'>
         <section className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
           <section className='flex items-center gap-3'>
             <span className='inline-flex shrink-0 items-center border border-teal-700 bg-teal-700 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white'>
               Resmi BMKG
             </span>
             <section>
-              <Typography variant='paragraph' className='text-sm font-bold text-gray-900'>
+              <Typography
+                variant='paragraph'
+                className='text-sm font-bold text-gray-900 dark:text-zinc-100'
+              >
                 Portal Pemantau Data Meteorologi & Seismik Indonesia
               </Typography>
-              <Typography variant='paragraph' className='mt-0.5 text-xs text-gray-700'>
+              <Typography
+                variant='paragraph'
+                className='mt-0.5 text-xs text-gray-700 dark:text-zinc-300'
+              >
                 Informasi resmi disinkronkan secara langsung dari sistem BMKG (Badan
                 Meteorologi, Klimatologi, dan Geofisika).
               </Typography>
@@ -87,7 +93,7 @@ export default function HomePage() {
             href='https://www.bmkg.go.id'
             target='_blank'
             rel='noreferrer'
-            className='inline-flex shrink-0 items-center justify-center gap-1.5 self-start border border-gray-400 bg-gray-50 px-3 py-2 text-xs font-bold leading-none text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-900 hover:text-white sm:self-center'
+            className='inline-flex shrink-0 items-center justify-center gap-1.5 self-start border border-gray-400 bg-gray-50 px-3 py-2 text-xs font-bold leading-none text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-900 hover:text-white dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-zinc-100 dark:hover:bg-zinc-100 dark:hover:text-zinc-900 sm:self-center'
           >
             <span className='leading-none'>Situs bmkg.go.id</span>
             <LuExternalLink size={14} className='shrink-0' />
@@ -100,15 +106,15 @@ export default function HomePage() {
         {/* left column: weather dashboard */}
         <section className='flex flex-col gap-5 lg:col-span-8'>
           {/* section heading bar with consistent height and font size */}
-          <section className='flex flex-col gap-2 border-b border-gray-300 pb-3 sm:flex-row sm:items-center sm:justify-between'>
+          <section className='flex flex-col gap-2 border-b border-gray-300 pb-3 dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between'>
             <section>
               <Typography
                 variant='h1'
-                className='text-lg font-bold tracking-tight text-gray-900'
+                className='text-lg font-bold tracking-tight text-gray-900 dark:text-zinc-100'
               >
                 Prakiraan Cuaca Hari Ini
               </Typography>
-              <p className='mt-0.5 text-xs text-gray-700'>
+              <p className='mt-0.5 text-xs text-gray-700 dark:text-zinc-400'>
                 Perkiraan kondisi cuaca, suhu, kelembaban, dan angin per interval waktu
               </p>
             </section>
@@ -122,8 +128,8 @@ export default function HomePage() {
           </section>
 
           {/* city selector toolbar with quick chips */}
-          <section className='border border-gray-300 bg-white p-4'>
-            <p className='mb-2 text-xs font-bold uppercase tracking-wider text-gray-700'>
+          <section className='border border-gray-300 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900'>
+            <p className='mb-2 text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-zinc-300'>
               Pilih Wilayah Pantauan:
             </p>
             <section className='flex flex-wrap items-center gap-2'>
@@ -132,13 +138,13 @@ export default function HomePage() {
                   aria-label='Pilih Wilayah Pantauan'
                   value={adm4}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  className='h-10 w-full rounded-none border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-900 transition-colors focus:border-gray-900 focus:outline-none'
+                  className='h-10 w-full rounded-none border border-gray-300 bg-white px-3 py-2 text-xs font-bold text-gray-900 transition-colors focus:border-gray-900 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:border-zinc-400'
                 >
                   {POPULAR_CITIES.map((city) => (
                     <option
                       key={city.adm4}
                       value={city.adm4}
-                      className='py-1 text-xs font-bold text-gray-900'
+                      className='py-1 text-xs font-bold text-gray-900 dark:bg-zinc-800 dark:text-zinc-100'
                     >
                       {city.name}
                     </option>
@@ -157,7 +163,7 @@ export default function HomePage() {
                       className={`h-10 rounded-none border px-3 text-xs font-bold transition-colors ${
                         isActive
                           ? 'border-blue-600 bg-blue-600 text-white'
-                          : 'border-gray-300 bg-white text-gray-800 hover:border-gray-900 hover:text-gray-900'
+                          : 'border-gray-300 bg-white text-gray-800 hover:border-gray-900 hover:text-gray-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:text-zinc-100'
                       }`}
                     >
                       {city.name.split(' (')[0].replace('Kota ', '')}
@@ -170,55 +176,59 @@ export default function HomePage() {
 
           {/* weather content display card - uniform border, no border-top */}
           {loadingWeather ? (
-            <Card className='animate-pulse rounded-none border border-gray-300 bg-white p-6 shadow-none'>
-              <CardBody className='p-0'>
-                <section className='mb-4 h-6 w-56 bg-gray-200'></section>
-                <section className='h-64 w-full bg-gray-100'></section>
-              </CardBody>
-            </Card>
+            <section className='animate-pulse rounded-none border border-gray-300 bg-white p-6 shadow-none dark:border-zinc-800 dark:bg-zinc-900'>
+              <section className='mb-4 h-6 w-56 bg-gray-200 dark:bg-zinc-800'></section>
+              <section className='h-64 w-full bg-gray-100 dark:bg-zinc-800/60'></section>
+            </section>
           ) : weather ? (
-            <Card className='rounded-none border border-gray-300 bg-white shadow-none'>
+            <section className='rounded-none border border-gray-300 bg-white shadow-none dark:border-zinc-800 dark:bg-zinc-900'>
               {/* location and timezone bar */}
-              <section className='flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-200 bg-gray-50/70 p-4'>
+              <section className='flex flex-wrap items-baseline justify-between gap-2 border-b border-gray-200 bg-gray-50/70 p-4 dark:border-zinc-800 dark:bg-zinc-900/80'>
                 <section>
-                  <Typography variant='h2' className='text-base font-bold text-gray-900'>
+                  <Typography
+                    variant='h2'
+                    className='text-base font-bold text-gray-900 dark:text-zinc-100'
+                  >
                     {weather.lokasi.kotkab},{' '}
-                    <span className='font-normal text-gray-700'>
+                    <span className='font-normal text-gray-700 dark:text-zinc-400'>
                       {weather.lokasi.provinsi}
                     </span>
                   </Typography>
-                  <p className='mt-0.5 text-xs text-gray-700'>
+                  <p className='mt-0.5 text-xs text-gray-700 dark:text-zinc-400'>
                     Kecamatan: {weather.lokasi.kecamatan || '-'} &bull; Koordinat:{' '}
                     {weather.lokasi.lat}, {weather.lokasi.lon}
                   </p>
                 </section>
-                <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900'>
+                <span className='border border-gray-300 bg-white px-2.5 py-1 text-xs font-bold text-gray-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100'>
                   Zona: {getTimezoneAbbr(weather.lokasi.timezone)} (
                   {weather.lokasi.timezone})
                 </span>
               </section>
 
-              <CardBody className='p-4 pt-1'>
+              <section className='p-4 pt-1'>
                 <WeatherContent weatherData={weather} maxDays={1} />
-              </CardBody>
-            </Card>
+              </section>
+            </section>
           ) : (
-            <Card className='rounded-none border border-red-300 bg-red-50 p-6 text-red-900 shadow-none'>
+            <section className='rounded-none border border-red-300 bg-red-50 p-6 text-red-900 shadow-none dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300'>
               <Typography variant='paragraph' className='font-bold'>
                 Gagal memuat data cuaca untuk wilayah ini. Silakan pilih wilayah lain atau
                 muat ulang halaman.
               </Typography>
-            </Card>
+            </section>
           )}
         </section>
 
         {/* right column: earthquake card */}
         <section className='lg:col-span-4'>
           {newestEarthquake ? (
-            <Card className='sticky top-4 rounded-none border border-gray-300 bg-white shadow-none'>
+            <section className='sticky top-4 rounded-none border border-gray-300 bg-white shadow-none dark:border-zinc-800 dark:bg-zinc-900'>
               {/* card header */}
-              <section className='flex items-center justify-between border-b border-gray-200 bg-gray-50/70 p-4'>
-                <Typography variant='h2' className='text-base font-bold text-gray-900'>
+              <section className='flex items-center justify-between border-b border-gray-200 bg-gray-50/70 p-4 dark:border-zinc-800 dark:bg-zinc-900/80'>
+                <Typography
+                  variant='h2'
+                  className='text-base font-bold text-gray-900 dark:text-zinc-100'
+                >
                   Info Gempa Terbaru
                 </Typography>
                 <span className='border border-red-600 bg-red-600 px-2.5 py-1 text-xs font-bold tracking-wider text-white'>
@@ -226,11 +236,11 @@ export default function HomePage() {
                 </span>
               </section>
 
-              <CardBody className='flex flex-col gap-4 p-4'>
+              <section className='flex flex-col gap-4 p-4'>
                 {/* shakemap image */}
                 <section>
                   <button
-                    className='group relative block w-full border border-gray-300 bg-gray-100'
+                    className='group relative block w-full border border-gray-300 bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800'
                     onClick={handleOpen}
                     title='Klik untuk memperbesar shakemap'
                   >
@@ -244,68 +254,77 @@ export default function HomePage() {
 
                 {/* flat earthquake metrics tiles with high contrast and consistent height */}
                 <section className='flex flex-col gap-2'>
-                  <section className='border border-gray-200 bg-gray-50 p-3'>
-                    <section className='flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gray-700'>
-                      <LuMapPin size={14} className='text-red-600' />
+                  <section className='border border-gray-200 bg-gray-50 p-3 dark:border-zinc-800 dark:bg-zinc-950/60'>
+                    <section className='flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-zinc-300'>
+                      <LuMapPin size={14} className='text-red-600 dark:text-red-400' />
                       <span>Pusat Episentrum</span>
                     </section>
-                    <p className='mt-1 text-sm font-bold text-gray-900'>
+                    <p className='mt-1 text-sm font-bold text-gray-900 dark:text-zinc-100'>
                       {newestEarthquake.wilayah}
                     </p>
                   </section>
 
                   <section className='grid grid-cols-2 gap-2'>
-                    <section className='flex h-20 flex-col justify-between border border-gray-200 bg-white p-2.5'>
-                      <section className='flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-gray-700'>
-                        <LuActivity size={13} className='text-red-600' />
+                    <section className='flex h-20 flex-col justify-between border border-gray-200 bg-white p-2.5 dark:border-zinc-800 dark:bg-zinc-900'>
+                      <section className='flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-gray-700 dark:text-zinc-400'>
+                        <LuActivity
+                          size={13}
+                          className='text-red-600 dark:text-red-400'
+                        />
                         <span>Magnitudo</span>
                       </section>
-                      <p className='text-xl font-bold text-red-600'>
+                      <p className='text-xl font-bold text-red-600 dark:text-red-400'>
                         M {newestEarthquake.magnitude}
                       </p>
                     </section>
 
-                    <section className='flex h-20 flex-col justify-between border border-gray-200 bg-white p-2.5'>
-                      <section className='flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-gray-700'>
-                        <LuLayers size={13} className='text-blue-600' />
+                    <section className='flex h-20 flex-col justify-between border border-gray-200 bg-white p-2.5 dark:border-zinc-800 dark:bg-zinc-900'>
+                      <section className='flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-gray-700 dark:text-zinc-400'>
+                        <LuLayers
+                          size={13}
+                          className='text-blue-600 dark:text-blue-400'
+                        />
                         <span>Kedalaman</span>
                       </section>
-                      <p className='text-lg font-bold text-gray-900'>
+                      <p className='text-lg font-bold text-gray-900 dark:text-zinc-100'>
                         {newestEarthquake.kedalaman}
                       </p>
                     </section>
                   </section>
 
-                  <section className='border border-gray-200 bg-white p-3'>
-                    <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-700'>
-                      <LuClock size={13} className='text-gray-700' />
+                  <section className='border border-gray-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900'>
+                    <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-700 dark:text-zinc-400'>
+                      <LuClock size={13} className='text-gray-700 dark:text-zinc-400' />
                       <span>Waktu Terjadinya</span>
                     </section>
-                    <p className='mt-1 text-xs font-bold text-gray-900'>
+                    <p className='mt-1 text-xs font-bold text-gray-900 dark:text-zinc-100'>
                       {newestEarthquake.tanggal} &bull;{' '}
                       {formatEarthquakeTime(newestEarthquake.jam)}
                     </p>
                   </section>
 
                   {newestEarthquake.potensi && (
-                    <section className='border border-amber-300 bg-amber-50 p-3'>
-                      <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-900'>
-                        <LuAlertTriangle size={13} className='text-amber-800' />
+                    <section className='border border-amber-300 bg-amber-50 p-3 dark:border-amber-700/60 dark:bg-amber-950/40'>
+                      <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-900 dark:text-amber-300'>
+                        <LuAlertTriangle
+                          size={13}
+                          className='text-amber-800 dark:text-amber-400'
+                        />
                         <span>Potensi Tsunami</span>
                       </section>
-                      <p className='mt-1 text-xs font-bold text-amber-900'>
+                      <p className='mt-1 text-xs font-bold text-amber-900 dark:text-amber-300'>
                         {newestEarthquake.potensi}
                       </p>
                     </section>
                   )}
 
                   {newestEarthquake.dirasakan && (
-                    <section className='border border-blue-300 bg-blue-50 p-3'>
-                      <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-900'>
-                        <LuRadio size={13} className='text-blue-800' />
+                    <section className='border border-blue-300 bg-blue-50 p-3 dark:border-blue-700/60 dark:bg-blue-950/40'>
+                      <section className='flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-900 dark:text-blue-300'>
+                        <LuRadio size={13} className='text-blue-800 dark:text-blue-400' />
                         <span>Dirasakan (MMI)</span>
                       </section>
-                      <p className='mt-1 text-xs font-bold text-blue-900'>
+                      <p className='mt-1 text-xs font-bold text-blue-900 dark:text-blue-300'>
                         {newestEarthquake.dirasakan}
                       </p>
                     </section>
@@ -315,19 +334,17 @@ export default function HomePage() {
                 {/* cta link to full earthquake page */}
                 <Link
                   to='/earthquake'
-                  className='flex h-10 items-center justify-center border border-gray-900 bg-gray-900 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-gray-800'
+                  className='flex h-10 items-center justify-center border border-gray-900 bg-gray-900 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-gray-800 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200'
                 >
                   Buka Peta Gempa Terpadu &rarr;
                 </Link>
-              </CardBody>
-            </Card>
+              </section>
+            </section>
           ) : (
-            <Card className='animate-pulse rounded-none border border-gray-300 bg-white p-5 shadow-none'>
-              <CardBody className='p-0'>
-                <section className='mb-3 h-5 w-44 bg-gray-200'></section>
-                <section className='h-64 w-full bg-gray-100'></section>
-              </CardBody>
-            </Card>
+            <section className='animate-pulse rounded-none border border-gray-300 bg-white p-5 shadow-none dark:border-zinc-800 dark:bg-zinc-900'>
+              <section className='mb-3 h-5 w-44 bg-gray-200 dark:bg-zinc-800'></section>
+              <section className='h-64 w-full bg-gray-100 dark:bg-zinc-800/60'></section>
+            </section>
           )}
         </section>
       </section>
@@ -337,20 +354,20 @@ export default function HomePage() {
         size='sm'
         open={open}
         handler={handleOpen}
-        className='!rounded-none border border-gray-300 bg-white p-4 !shadow-none'
+        className='!rounded-none border border-gray-300 bg-white p-4 !shadow-none dark:!border-zinc-800 dark:!bg-zinc-900'
       >
-        <section className='mb-3 flex items-center justify-between border-b border-gray-200 pb-2'>
+        <section className='mb-3 flex items-center justify-between border-b border-gray-200 pb-2 dark:border-zinc-800'>
           <section className='flex items-center gap-2'>
             <span className='border border-red-600 bg-red-600 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-white'>
               Shakemap
             </span>
-            <h3 className='text-xs font-bold uppercase tracking-wider text-gray-900'>
+            <h3 className='text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-zinc-100'>
               Peta Guncangan Gempa BMKG
             </h3>
           </section>
           <button
             onClick={handleOpen}
-            className='border border-gray-300 bg-gray-50 px-2.5 py-1 text-xs font-bold text-gray-800 transition-colors hover:border-gray-900 hover:bg-gray-900 hover:text-white'
+            className='border border-gray-300 bg-gray-50 px-2.5 py-1 text-xs font-bold text-gray-800 transition-colors hover:border-gray-900 hover:bg-gray-900 hover:text-white dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:border-zinc-100 dark:hover:bg-zinc-100 dark:hover:text-zinc-900'
           >
             Tutup &times;
           </button>
@@ -360,7 +377,7 @@ export default function HomePage() {
           <img
             src={`https://data.bmkg.go.id/DataMKG/TEWS/${newestEarthquake.shakemap}`}
             alt='Shakemap'
-            className='h-auto w-full border border-gray-200 bg-gray-100'
+            className='h-auto w-full border border-gray-200 bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800'
           />
         )}
       </Dialog>
