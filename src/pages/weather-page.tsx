@@ -1,5 +1,5 @@
 import { Typography } from '@material-tailwind/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import WeatherContent from '@/components/weather/weather-content';
 import { DEFAULT_ADM4, DEFAULT_PROVINCE_KEY, REGIONS } from '@/constants';
@@ -13,15 +13,31 @@ export default function WeatherPage() {
   const [weather, setWeather] = useState<BmkgWeatherResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const weatherAbortRef = useRef<AbortController | null>(null);
+
   const loadWeather = async (targetAdm4: string) => {
+    if (weatherAbortRef.current) {
+      weatherAbortRef.current.abort();
+    }
+    const controller = new AbortController();
+    weatherAbortRef.current = controller;
+
     setLoading(true);
-    const data = await fetchWeather(targetAdm4);
-    setWeather(data);
-    setLoading(false);
+    const data = await fetchWeather(targetAdm4, controller.signal);
+    if (!controller.signal.aborted) {
+      setWeather(data);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     loadWeather(DEFAULT_ADM4);
+
+    return () => {
+      if (weatherAbortRef.current) {
+        weatherAbortRef.current.abort();
+      }
+    };
   }, []);
 
   const handleProvinceChange = (newProvinceKey: string) => {

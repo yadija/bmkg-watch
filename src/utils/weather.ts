@@ -135,3 +135,39 @@ export const formatEarthquakeTime = (jamStr: string): string => {
   }
   return `${jamStr} WIB`;
 };
+
+/**
+ * parses and normalizes earthquake coordinates from BMKG feeds
+ * handles comma-delimited strings as well as degree notation (LS/LU, BT/BB)
+ * returns [latitude, longitude] or null if invalid
+ */
+export const parseEarthquakeCoordinates = (
+  coordinates?: string[],
+  lintang?: string,
+  bujur?: string,
+): [number, number] | null => {
+  if (coordinates && coordinates.length >= 2) {
+    const lat = parseFloat(coordinates[0]);
+    const lon = parseFloat(coordinates[1]);
+    if (!isNaN(lat) && !isNaN(lon)) {
+      return [lat, lon];
+    }
+  }
+
+  if (lintang && bujur) {
+    const cleanLatStr = lintang.replace(/[^\d.-]/g, '');
+    const cleanLonStr = bujur.replace(/[^\d.-]/g, '');
+    const latVal = parseFloat(cleanLatStr);
+    const lonVal = parseFloat(cleanLonStr);
+
+    if (!isNaN(latVal) && !isNaN(lonVal)) {
+      // LS (Lintang Selatan) / S is negative; LU (Lintang Utara) / U is positive
+      const lat = /LS|S/i.test(lintang) ? -Math.abs(latVal) : latVal;
+      // BB (Bujur Barat) / W is negative; BT (Bujur Timur) / E is positive
+      const lon = /BB|W/i.test(bujur) ? -Math.abs(lonVal) : lonVal;
+      return [lat, lon];
+    }
+  }
+
+  return null;
+};

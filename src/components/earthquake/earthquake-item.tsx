@@ -2,6 +2,7 @@ import { Typography } from '@material-tailwind/react';
 import { LuMapPin } from 'react-icons/lu';
 
 import { EarthquakeData } from '@/types';
+import { parseEarthquakeCoordinates } from '@/utils';
 
 interface EarthquakeItemProps {
   earthquake: EarthquakeData;
@@ -12,13 +13,15 @@ export default function EarthquakeItem({ earthquake, onSelect }: EarthquakeItemP
   const mag = parseFloat(earthquake.magnitude);
   const isHighMagnitude = !isNaN(mag) && mag >= 5.0;
 
-  const lat = Number(earthquake.coordinates[0]);
-  const lon = Number(earthquake.coordinates[1]);
-  const hasValidCoord = !isNaN(lat) && !isNaN(lon);
+  const coord = parseEarthquakeCoordinates(
+    earthquake.coordinates,
+    earthquake.lintang,
+    earthquake.bujur,
+  );
 
   const handleFocus = () => {
-    if (onSelect && hasValidCoord) {
-      onSelect([lat, lon]);
+    if (onSelect && coord) {
+      onSelect(coord);
     }
   };
 
@@ -84,7 +87,7 @@ export default function EarthquakeItem({ earthquake, onSelect }: EarthquakeItemP
           </section>
         </section>
 
-        {hasValidCoord && onSelect && (
+        {coord && onSelect && (
           <button
             onClick={handleFocus}
             className='inline-flex shrink-0 items-center justify-center gap-1.5 self-start border border-gray-400 bg-gray-50 px-3 py-2 text-xs font-bold leading-none text-gray-900 transition-colors hover:border-gray-900 hover:bg-gray-900 hover:text-white dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-zinc-100 dark:hover:bg-zinc-100 dark:hover:text-zinc-900 sm:self-center'

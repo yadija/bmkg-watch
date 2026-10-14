@@ -23,14 +23,14 @@ export const REGIONS: Record<string, RegionProvince> = {
   JawaBarat: {
     name: 'Jawa Barat',
     cities: [
-      { name: 'Kota Bandung', adm4: '32.04.05.2001' },
-      { name: 'Kota Bogor', adm4: '32.01.01.1001' },
-      { name: 'Kota Bekasi', adm4: '32.16.01.1007' },
+      { name: 'Kota Bandung', adm4: '32.73.01.1001' },
+      { name: 'Kota Bogor', adm4: '32.71.01.1001' },
+      { name: 'Kota Bekasi', adm4: '32.75.01.1001' },
       { name: 'Kota Depok', adm4: '32.76.01.1006' },
       { name: 'Kota Cimahi', adm4: '32.77.01.1001' },
-      { name: 'Kota Cirebon', adm4: '32.09.01.2008' },
-      { name: 'Kota Tasikmalaya', adm4: '32.06.01.2001' },
-      { name: 'Kota Sukabumi', adm4: '32.02.01.1001' },
+      { name: 'Kota Cirebon', adm4: '32.74.01.1001' },
+      { name: 'Kota Tasikmalaya', adm4: '32.78.01.1001' },
+      { name: 'Kota Sukabumi', adm4: '32.72.01.1001' },
       { name: 'Kota Banjar', adm4: '32.79.01.1001' },
       { name: 'Kab. Bandung', adm4: '32.04.05.2001' },
       { name: 'Kab. Bogor', adm4: '32.01.01.1001' },
@@ -43,12 +43,12 @@ export const REGIONS: Record<string, RegionProvince> = {
   JawaTengah: {
     name: 'Jawa Tengah',
     cities: [
-      { name: 'Kota Semarang', adm4: '33.22.01.2001' },
+      { name: 'Kota Semarang', adm4: '33.74.01.1001' },
       { name: 'Kota Surakarta (Solo)', adm4: '33.72.01.1001' },
-      { name: 'Kota Magelang', adm4: '33.08.01.2001' },
-      { name: 'Kota Pekalongan', adm4: '33.26.01.2001' },
+      { name: 'Kota Magelang', adm4: '33.71.03.1001' },
+      { name: 'Kota Pekalongan', adm4: '33.75.01.1002' },
       { name: 'Kota Salatiga', adm4: '33.73.01.1001' },
-      { name: 'Kota Tegal', adm4: '33.28.01.2001' },
+      { name: 'Kota Tegal', adm4: '33.76.01.1001' },
       { name: 'Kab. Banyumas (Purwokerto)', adm4: '33.02.01.2001' },
       { name: 'Kab. Cilacap', adm4: '33.01.01.2001' },
       { name: 'Kab. Kudus', adm4: '33.19.01.2001' },
@@ -69,14 +69,14 @@ export const REGIONS: Record<string, RegionProvince> = {
     name: 'Jawa Timur',
     cities: [
       { name: 'Kota Surabaya', adm4: '35.78.01.1001' },
-      { name: 'Kota Malang', adm4: '35.07.01.2001' },
+      { name: 'Kota Malang', adm4: '35.73.01.1001' },
       { name: 'Kota Batu', adm4: '35.79.01.1001' },
-      { name: 'Kota Kediri', adm4: '35.06.01.2001' },
-      { name: 'Kota Blitar', adm4: '35.05.01.2001' },
-      { name: 'Kota Madiun', adm4: '35.19.01.2001' },
-      { name: 'Kota Mojokerto', adm4: '35.16.01.2001' },
-      { name: 'Kota Pasuruan', adm4: '35.14.01.2001' },
-      { name: 'Kota Probolinggo', adm4: '35.13.01.2001' },
+      { name: 'Kota Kediri', adm4: '35.71.01.1001' },
+      { name: 'Kota Blitar', adm4: '35.72.01.1001' },
+      { name: 'Kota Madiun', adm4: '35.77.01.1001' },
+      { name: 'Kota Mojokerto', adm4: '35.76.01.1003' },
+      { name: 'Kota Pasuruan', adm4: '35.75.01.1001' },
+      { name: 'Kota Probolinggo', adm4: '35.74.01.1001' },
       { name: 'Kab. Sidoarjo', adm4: '35.15.01.2001' },
       { name: 'Kab. Banyuwangi', adm4: '35.10.01.2001' },
       { name: 'Kab. Jember', adm4: '35.09.01.2001' },
@@ -85,8 +85,8 @@ export const REGIONS: Record<string, RegionProvince> = {
   Banten: {
     name: 'Banten',
     cities: [
-      { name: 'Kota Serang', adm4: '36.04.05.2001' },
-      { name: 'Kota Tangerang', adm4: '36.03.01.1001' },
+      { name: 'Kota Serang', adm4: '36.73.01.1001' },
+      { name: 'Kota Tangerang', adm4: '36.71.01.1001' },
       { name: 'Kota Tangerang Selatan', adm4: '36.74.01.1001' },
       { name: 'Kota Cilegon', adm4: '36.72.01.1001' },
       { name: 'Kab. Lebak', adm4: '36.02.01.2002' },
@@ -107,7 +107,7 @@ export const REGIONS: Record<string, RegionProvince> = {
     name: 'Nusa Tenggara Barat',
     cities: [
       { name: 'Kota Mataram', adm4: '52.71.01.1004' },
-      { name: 'Kota Bima', adm4: '52.06.01.2005' },
+      { name: 'Kota Bima', adm4: '52.72.01.1001' },
       { name: 'Kab. Lombok Barat', adm4: '52.01.01.1001' },
       { name: 'Kab. Lombok Tengah', adm4: '52.02.01.1001' },
       { name: 'Kab. Sumbawa', adm4: '52.04.02.2001' },
@@ -116,7 +116,7 @@ export const REGIONS: Record<string, RegionProvince> = {
   NusaTenggaraTimur: {
     name: 'Nusa Tenggara Timur',
     cities: [
-      { name: 'Kota Kupang', adm4: '53.01.04.2003' },
+      { name: 'Kota Kupang', adm4: '53.71.01.1001' },
       { name: 'Kab. Manggarai Barat (Labuan Bajo)', adm4: '53.15.01.2001' },
       { name: 'Kab. Sikka (Maumere)', adm4: '53.07.01.2001' },
       { name: 'Kab. Ende', adm4: '53.08.01.1001' },
@@ -138,7 +138,7 @@ export const REGIONS: Record<string, RegionProvince> = {
       { name: 'Kota Pematangsiantar', adm4: '12.72.01.1001' },
       { name: 'Kota Binjai', adm4: '12.75.01.1001' },
       { name: 'Kota Tebing Tinggi', adm4: '12.76.01.1001' },
-      { name: 'Kota Padang Sidempuan', adm4: '13.71.01.1001' },
+      { name: 'Kota Padang Sidempuan', adm4: '12.77.01.1001' },
     ],
   },
   SumateraBarat: {
@@ -148,7 +148,7 @@ export const REGIONS: Record<string, RegionProvince> = {
       { name: 'Kota Bukittinggi', adm4: '13.75.01.1001' },
       { name: 'Kota Payakumbuh', adm4: '13.76.01.1002' },
       { name: 'Kota Pariaman', adm4: '13.77.01.1001' },
-      { name: 'Kota Solok', adm4: '13.02.03.2001' },
+      { name: 'Kota Solok', adm4: '13.72.01.1001' },
     ],
   },
   Riau: {
@@ -229,7 +229,7 @@ export const REGIONS: Record<string, RegionProvince> = {
     cities: [
       { name: 'Kota Banjarmasin', adm4: '63.71.01.1001' },
       { name: 'Kota Banjarbaru', adm4: '63.72.02.1003' },
-      { name: 'Kab. Banjar', adm4: '32.79.01.1001' },
+      { name: 'Kab. Banjar', adm4: '63.03.05.1001' },
     ],
   },
   KalimantanTimur: {
@@ -260,7 +260,7 @@ export const REGIONS: Record<string, RegionProvince> = {
   Gorontalo: {
     name: 'Gorontalo',
     cities: [
-      { name: 'Kota Gorontalo', adm4: '75.01.01.1001' },
+      { name: 'Kota Gorontalo', adm4: '75.71.01.1001' },
       { name: 'Kab. Bone Bolango', adm4: '75.03.01.2004' },
     ],
   },
@@ -311,7 +311,7 @@ export const REGIONS: Record<string, RegionProvince> = {
   Papua: {
     name: 'Papua',
     cities: [
-      { name: 'Kota Jayapura', adm4: '91.03.01.1001' },
+      { name: 'Kota Jayapura', adm4: '91.71.01.1001' },
       { name: 'Kab. Jayapura', adm4: '91.03.01.1001' },
     ],
   },
@@ -324,7 +324,7 @@ export const REGIONS: Record<string, RegionProvince> = {
   },
   PapuaBaratDaya: {
     name: 'Papua Barat Daya',
-    cities: [{ name: 'Kota Sorong', adm4: '96.01.01.1001' }],
+    cities: [{ name: 'Kota Sorong', adm4: '96.71.01.1001' }],
   },
   PapuaSelatan: {
     name: 'Papua Selatan',

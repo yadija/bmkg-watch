@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 
 import { EarthquakeData, NewestEarthquake } from '@/types';
+import { parseEarthquakeCoordinates } from '@/utils';
 
 interface EarthquakeMapProps {
   newestEarthquake: NewestEarthquake | null;
@@ -87,21 +88,13 @@ export default function EarthquakeMap({
   const [filter, setFilter] = useState<FilterMode>('all');
 
   // parse latest earthquake coordinates
-  const latestCoord: [number, number] | null = (() => {
-    if (!newestEarthquake?.coordinates || newestEarthquake.coordinates.length < 2) {
-      if (newestEarthquake?.lintang && newestEarthquake?.bujur) {
-        const latVal = parseFloat(newestEarthquake.lintang);
-        const lat = newestEarthquake.lintang.includes('LS') ? -latVal : latVal;
-        const lonVal = parseFloat(newestEarthquake.bujur);
-        const lon = newestEarthquake.bujur.includes('BB') ? -lonVal : lonVal;
-        if (!isNaN(lat) && !isNaN(lon)) return [lat, lon];
-      }
-      return null;
-    }
-    const lat = Number(newestEarthquake.coordinates[0]);
-    const lon = Number(newestEarthquake.coordinates[1]);
-    return !isNaN(lat) && !isNaN(lon) ? [lat, lon] : null;
-  })();
+  const latestCoord = newestEarthquake
+    ? parseEarthquakeCoordinates(
+        newestEarthquake.coordinates,
+        newestEarthquake.lintang,
+        newestEarthquake.bujur,
+      )
+    : null;
 
   const show5Min = filter === 'all' || filter === 'm5';
   const showFelt = filter === 'all' || filter === 'felt';
@@ -221,14 +214,17 @@ export default function EarthquakeMap({
           {show5Min &&
             earthquakes5Min &&
             earthquakes5Min.map((eq, index) => {
-              const lat = Number(eq.coordinates[0]);
-              const lon = Number(eq.coordinates[1]);
-              if (isNaN(lat) || isNaN(lon)) return null;
+              const coord = parseEarthquakeCoordinates(
+                eq.coordinates,
+                eq.lintang,
+                eq.bujur,
+              );
+              if (!coord) return null;
 
               return (
                 <Marker
                   key={`m5-${index}`}
-                  position={[lat, lon]}
+                  position={coord}
                   icon={createMarkerIcon(eq.magnitude, false, false)}
                 >
                   <Popup>
@@ -276,14 +272,17 @@ export default function EarthquakeMap({
           {showFelt &&
             earthquakesFelt &&
             earthquakesFelt.map((eq, index) => {
-              const lat = Number(eq.coordinates[0]);
-              const lon = Number(eq.coordinates[1]);
-              if (isNaN(lat) || isNaN(lon)) return null;
+              const coord = parseEarthquakeCoordinates(
+                eq.coordinates,
+                eq.lintang,
+                eq.bujur,
+              );
+              if (!coord) return null;
 
               return (
                 <Marker
                   key={`felt-${index}`}
-                  position={[lat, lon]}
+                  position={coord}
                   icon={createMarkerIcon(eq.magnitude, false, true)}
                 >
                   <Popup>

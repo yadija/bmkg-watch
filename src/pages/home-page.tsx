@@ -1,5 +1,5 @@
 import { Dialog, Typography } from '@material-tailwind/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   LuActivity,
   LuAlertTriangle,
@@ -36,15 +36,25 @@ export default function HomePage() {
   const [adm4, setAdm4] = useState<string>(DEFAULT_ADM4);
   const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
 
+  const weatherAbortRef = useRef<AbortController | null>(null);
+
   // dialog for shakemap preview
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((prev) => !prev);
 
   const loadWeather = async (targetAdm4: string) => {
+    if (weatherAbortRef.current) {
+      weatherAbortRef.current.abort();
+    }
+    const controller = new AbortController();
+    weatherAbortRef.current = controller;
+
     setLoadingWeather(true);
-    const data = await fetchWeather(targetAdm4);
-    setWeather(data);
-    setLoadingWeather(false);
+    const data = await fetchWeather(targetAdm4, controller.signal);
+    if (!controller.signal.aborted) {
+      setWeather(data);
+      setLoadingWeather(false);
+    }
   };
 
   useEffect(() => {
@@ -56,6 +66,12 @@ export default function HomePage() {
     };
 
     fetchData();
+
+    return () => {
+      if (weatherAbortRef.current) {
+        weatherAbortRef.current.abort();
+      }
+    };
   }, []);
 
   const handleCityChange = (newAdm4: string) => {
