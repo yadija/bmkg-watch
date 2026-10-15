@@ -44,15 +44,23 @@ const parseEarthquakeData = (xmlDoc: XMLDocument): EarthquakeData[] => {
 };
 
 // fetch the latest single earthquake event
-export const fetchNewestEarthquake = async (): Promise<NewestEarthquake | null> => {
+export const fetchNewestEarthquake = async (
+  signal?: AbortSignal,
+): Promise<NewestEarthquake | null> => {
   const url = 'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.xml';
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
     const text = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(text, 'application/xml');
 
     const gempa = xmlDoc.getElementsByTagName('gempa')[0];
+    if (!gempa) {
+      return null;
+    }
 
     const tanggal = gempa.getElementsByTagName('Tanggal')[0]?.textContent || '';
     const jam = gempa.getElementsByTagName('Jam')[0]?.textContent || '';
@@ -92,37 +100,56 @@ export const fetchNewestEarthquake = async (): Promise<NewestEarthquake | null> 
       coordinates,
     };
   } catch (error) {
-    console.error('Error fetching earthquake data:', error);
+    if ((error as Error)?.name === 'AbortError') {
+      return null;
+    }
+    console.error('Error fetching newest earthquake data:', error);
     return null;
   }
 };
 
 // fetch the last 15 earthquakes with magnitude 5.0+
-export const fetchEarthquake5Min = async (): Promise<EarthquakeData[] | null> => {
+export const fetchEarthquake5Min = async (
+  signal?: AbortSignal,
+): Promise<EarthquakeData[] | null> => {
   const url = 'https://data.bmkg.go.id/DataMKG/TEWS/gempaterkini.xml';
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
     const text = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(text, 'application/xml');
     return parseEarthquakeData(xmlDoc);
   } catch (error) {
-    console.error('Error fetching earthquake data:', error);
+    if ((error as Error)?.name === 'AbortError') {
+      return null;
+    }
+    console.error('Error fetching 5.0+ earthquake data:', error);
     return null;
   }
 };
 
 // fetch the last 15 felt earthquakes
-export const fetchEarthquakeFelt = async (): Promise<EarthquakeData[] | null> => {
+export const fetchEarthquakeFelt = async (
+  signal?: AbortSignal,
+): Promise<EarthquakeData[] | null> => {
   const url = 'https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.xml';
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
     const text = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(text, 'application/xml');
     return parseEarthquakeData(xmlDoc);
   } catch (error) {
-    console.error('Error fetching earthquake data:', error);
+    if ((error as Error)?.name === 'AbortError') {
+      return null;
+    }
+    console.error('Error fetching felt earthquake data:', error);
     return null;
   }
 };

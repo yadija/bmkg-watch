@@ -16,4 +16,6 @@ export const CARD = {
   NW: 'Barat Laut',
   NNW: 'Utara - Barat Laut',
   VARIABLE: 'Berubah-ubah',
-};
+} as const;
+
+export type CardinalDirection = keyof typeof CARD;

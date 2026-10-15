@@ -1,43 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import WeatherContent from '@/components/weather/weather-content';
 import { DEFAULT_ADM4, DEFAULT_PROVINCE_KEY, REGIONS } from '@/constants';
-import { fetchWeather } from '@/services';
-import { BmkgWeatherResponse } from '@/types';
+import { useWeather } from '@/hooks';
 import { getTimezoneAbbr } from '@/utils';
 
 export default function WeatherPage() {
   const [provinceKey, setProvinceKey] = useState<string>(DEFAULT_PROVINCE_KEY);
-  const [adm4, setAdm4] = useState<string>(DEFAULT_ADM4);
-  const [weather, setWeather] = useState<BmkgWeatherResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const weatherAbortRef = useRef<AbortController | null>(null);
-
-  const loadWeather = async (targetAdm4: string) => {
-    if (weatherAbortRef.current) {
-      weatherAbortRef.current.abort();
-    }
-    const controller = new AbortController();
-    weatherAbortRef.current = controller;
-
-    setLoading(true);
-    const data = await fetchWeather(targetAdm4, controller.signal);
-    if (!controller.signal.aborted) {
-      setWeather(data);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadWeather(DEFAULT_ADM4);
-
-    return () => {
-      if (weatherAbortRef.current) {
-        weatherAbortRef.current.abort();
-      }
-    };
-  }, []);
+  const { weather, loading, adm4, setAdm4, loadWeather } = useWeather(DEFAULT_ADM4);
 
   const handleProvinceChange = (newProvinceKey: string) => {
     setProvinceKey(newProvinceKey);

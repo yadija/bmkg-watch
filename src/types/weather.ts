@@ -46,3 +46,9 @@ export interface BmkgWeatherResponse {
   lokasi: BmkgWeatherLocation;
   data: BmkgWeatherDataItem[];
 }
+
+export interface FormattedDailyWeather {
+  dateLabel: string;
+  dateKey: string;
+  entries: BmkgWeatherEntry[];
+}

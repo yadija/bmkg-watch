@@ -1,11 +1,7 @@
-import { CARD } from '@/constants';
-import { BmkgWeatherEntry, BmkgWeatherResponse } from '@/types';
+import { CARD, CardinalDirection } from '@/constants';
+import { BmkgWeatherResponse, FormattedDailyWeather } from '@/types';
 
-export interface FormattedDailyWeather {
-  dateLabel: string;
-  dateKey: string;
-  entries: BmkgWeatherEntry[];
-}
+export type { FormattedDailyWeather };
 
 /**
  * format string "yyyy-mm-dd hh:mm:ss" or iso string to readable indonesian date
@@ -68,7 +64,7 @@ export const isDaytime = (dateTimeStr: string): boolean => {
  */
 export const getWindDirectionName = (cardinal: string): string => {
   if (!cardinal) return 'N/A';
-  return CARD[cardinal as keyof typeof CARD] || cardinal;
+  return CARD[cardinal as CardinalDirection] || cardinal;
 };
 
 /**

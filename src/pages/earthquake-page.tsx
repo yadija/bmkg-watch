@@ -1,38 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { LuExternalLink } from 'react-icons/lu';
 
 import EarthquakeDetail from '@/components/earthquake/earthquake-detail';
 import EarthquakeList from '@/components/earthquake/earthquake-list';
 import EarthquakeMap from '@/components/earthquake/earthquake-map';
-import {
-  fetchEarthquake5Min,
-  fetchEarthquakeFelt,
-  fetchNewestEarthquake,
-} from '@/services';
-import { EarthquakeData, NewestEarthquake } from '@/types';
+import { useEarthquakes } from '@/hooks';
 
 export default function EarthquakePage() {
-  const [newestEarthquake, setNewestEarthquake] = useState<NewestEarthquake | null>(null);
-  const [earthquake5Min, setEarthquake5Min] = useState<EarthquakeData[] | null>(null);
-  const [earthquakeFelt, setEarthquakeFelt] = useState<EarthquakeData[] | null>(null);
+  const { newestEarthquake, earthquake5Min, earthquakeFelt } = useEarthquakes();
   const [selectedCoord, setSelectedCoord] = useState<[number, number] | null>(null);
 
   const mapSectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const newest = await fetchNewestEarthquake();
-      setNewestEarthquake(newest);
-
-      const eq5Min = await fetchEarthquake5Min();
-      setEarthquake5Min(eq5Min);
-
-      const eqFelt = await fetchEarthquakeFelt();
-      setEarthquakeFelt(eqFelt);
-    };
-
-    fetchData();
-  }, []);
 
   const handleSelectEarthquake = (coord: [number, number]) => {
     setSelectedCoord(coord);

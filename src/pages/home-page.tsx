@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import {
   LuActivity,
   LuAlertTriangle,
@@ -13,8 +12,7 @@ import { Link } from 'react-router-dom';
 import ShakemapPreview from '@/components/earthquake/shakemap-preview';
 import WeatherContent from '@/components/weather/weather-content';
 import { DEFAULT_ADM4 } from '@/constants';
-import { fetchNewestEarthquake, fetchWeather } from '@/services';
-import { BmkgWeatherResponse, NewestEarthquake } from '@/types';
+import { useLatestEarthquake, useWeather } from '@/hooks';
 import { formatEarthquakeTime, getTimezoneAbbr } from '@/utils';
 
 const POPULAR_CITIES = [
@@ -31,44 +29,14 @@ const POPULAR_CITIES = [
 ];
 
 export default function HomePage() {
-  const [newestEarthquake, setNewestEarthquake] = useState<NewestEarthquake | null>(null);
-  const [weather, setWeather] = useState<BmkgWeatherResponse | null>(null);
-  const [adm4, setAdm4] = useState<string>(DEFAULT_ADM4);
-  const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
-
-  const weatherAbortRef = useRef<AbortController | null>(null);
-
-  const loadWeather = async (targetAdm4: string) => {
-    if (weatherAbortRef.current) {
-      weatherAbortRef.current.abort();
-    }
-    const controller = new AbortController();
-    weatherAbortRef.current = controller;
-
-    setLoadingWeather(true);
-    const data = await fetchWeather(targetAdm4, controller.signal);
-    if (!controller.signal.aborted) {
-      setWeather(data);
-      setLoadingWeather(false);
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      loadWeather(DEFAULT_ADM4);
-
-      const earthquake = await fetchNewestEarthquake();
-      setNewestEarthquake(earthquake);
-    };
-
-    fetchData();
-
-    return () => {
-      if (weatherAbortRef.current) {
-        weatherAbortRef.current.abort();
-      }
-    };
-  }, []);
+  const { earthquake: newestEarthquake } = useLatestEarthquake();
+  const {
+    weather,
+    loading: loadingWeather,
+    adm4,
+    setAdm4,
+    loadWeather,
+  } = useWeather(DEFAULT_ADM4);
 
   const handleCityChange = (newAdm4: string) => {
     setAdm4(newAdm4);
